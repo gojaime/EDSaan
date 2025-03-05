@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet } from 'react-native';
+import { Platform, Text, View, StyleSheet, ScrollView, StatusBar } from 'react-native';
 
 import * as Location from 'expo-location';
 import { ThemedText } from '@/components/ThemedText';
+
+import * as Progress from 'react-native-progress';
 
 export default function App() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
@@ -42,22 +44,55 @@ export default function App() {
 
 
   return (
-    <View style={styles.container}>
-      <ThemedText style={styles.paragraph}>{text}</ThemedText>
-      <ThemedText></ThemedText>
+    <View style={styles.main}>
+      <View style={styles.header}>
+        <ThemedText style={styles.paragraph}>{text}</ThemedText>
+      </View>
+      <View style={styles.mapContainer}>
+        <ScrollView horizontal={true} alwaysBounceHorizontal={false} overScrollMode='never'>
+          <View style={styles.map}>
+            <Progress.Bar progress={0.3} width={1500}/>
+            <ThemedText>asdasdasfasfasfasfsdfasfasasfasdasdasdasdasdadadadasdasd the quick brown fox jumps over the lazy dog the quick brown gocz</ThemedText>
+          </View>
+        </ScrollView>
+      </View>
+      <View style={styles.footer}>
+        <ThemedText style={styles.paragraph}>{text}</ThemedText>
+      </View>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
+  header: {
     justifyContent: 'center',
-    padding: 20,
+    alignItems: 'center',
+    flex: 25
+  },
+  footer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 25
   },
   paragraph: {
     fontSize: 18,
     textAlign: 'center',
+  },
+  map: {
+    justifyContent: 'center',
+    backgroundColor: 'red'
+    
+  },
+  mapContainer: {
+    flex: 75,
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+  },
+  main: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
   },
 });

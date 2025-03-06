@@ -94,11 +94,11 @@ export default function App() {
       </View>
       <View style={styles.footer}>
         <View style={{flex: 80}}>
-        <Text style={{color: 'white', textAlign: 'center', fontSize: 13}}>Destination:</Text>
-        <Text style={{color: 'white', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>🏁 {stations[5].name}</Text>
+        <Text style={{color: 'black', textAlign: 'center', fontSize: 13}}>Destination:</Text>
+        <Text style={{color: 'black', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>🏁 {stations[5].name}</Text>
         </View>
         <TouchableOpacity style={styles.stationsButton}   onPress={() => {router.push("/explore");}}>
-          <Text style={{color: 'black', fontWeight: 'bold'}}>⇄ Change Destination</Text>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>⇄ Change Destination</Text>
         </TouchableOpacity>
       </View>
 
@@ -111,13 +111,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 50,
+    backgroundColor: 'white',
+    alignSelf: 'stretch',
+    marginHorizontal: 10,
+    borderRadius: 10
   },
   footer: {
     justifyContent: 'space-evenly',
     alignItems: 'center',
     marginHorizontal: 10,
     flex: 15,
-    backgroundColor: '#CF0921',
+    backgroundColor: '#FCD20F',
     borderRadius: 10,
     alignSelf: 'stretch',
     flexDirection: 'row'
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
   },
   stationsButton: {
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: '#CF0921',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,

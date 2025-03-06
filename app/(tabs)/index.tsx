@@ -7,11 +7,14 @@ import * as Progress from 'react-native-progress';
 
 import StationSquare from '@/components/StationSquare';
 
+import { Link, useRouter } from 'expo-router';
+import { Route } from 'expo-router/build/Route';
+
 export default function App() {
+
+  const router = useRouter();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  // const [lat,setLatitude] = useState<string | null | undefined>(null);
-  // const [lon,setLongitude] = useState<string | null | undefined>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -46,19 +49,31 @@ export default function App() {
   const stations =[
     {name: 'Monumento', lat: 100, lon:200},
     {name: 'Bagong Barrio', lat: 100, lon:300},
-    {name: 'Station 3', lat: 100, lon:400},
-    {name: 'Station 3', lat: 100, lon:400},
-    {name: 'Station 3', lat: 100, lon:400},
-    {name: 'Station 3', lat: 100, lon:400},
-    {name: 'los pollos hermanos the best chicken', lat: 100, lon:400},
-    {name: 'Station 3', lat: 100, lon:400},
-    {name: 'PITX', lat: 100, lon:400}
+    {name: 'Balintawak', lat: 100, lon:400},
+    {name: 'Kaingin Road', lat: 100, lon:400},
+    {name: 'LRT 1- Roosevelt Station', lat: 100, lon:400},
+    {name: 'MRT 3 North Avenue', lat: 100, lon:400},
+    {name: 'MRT 3 Quezon Avenue', lat: 100, lon:400},
+    {name: 'Nepa Q-Mart', lat: 100, lon:400},
+    {name: 'Main Ave (Cubao)', lat: 100, lon:400},
+    {name: 'MRT 3 Santolan Station', lat: 100, lon:400},
+    {name: 'MRT 3 Ortigas Station', lat: 100, lon:400},
+    {name: 'Guadalupe Bridge', lat: 100, lon:400},
+    {name: 'MRT 3 Buendia Station', lat: 100, lon:400},
+    {name: 'MRT 3 Ayala Station (curbside)', lat: 100, lon:400},
+    {name: 'Taft Avenue', lat: 100, lon:400},
+    {name: 'Roxas Boulevard', lat: 100, lon:400},
+    {name: 'SM Mall of Asia (curbside)', lat: 100, lon:400},
+    {name: 'Macapagal - DFA (curbside)', lat: 100, lon:400},
+    {name: 'Macapagal - City of Dreams (curbside)', lat: 100, lon:400},
+    {name: 'PITX', lat: 100, lon:400},
+    
   ]
 
   return (
     <View style={styles.main}>
       <View style={styles.header}>
-        <Text style={styles.paragraph}>Next Station:</Text>
+        <Text style={styles.paragraph}>Next Bus Stop:</Text>
         <Text style={{fontSize: 30, color: 'black'}}>{stations[1].name}</Text>
         <Text>{text}</Text>
       </View>
@@ -80,9 +95,9 @@ export default function App() {
       <View style={styles.footer}>
         <View style={{flex: 80}}>
         <Text style={{color: 'white', textAlign: 'center', fontSize: 13}}>Destination:</Text>
-        <Text style={{color: 'white', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>🏁 {stations[8].name}</Text>
+        <Text style={{color: 'white', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>🏁 {stations[5].name}</Text>
         </View>
-        <TouchableOpacity style={styles.stationsButton}>
+        <TouchableOpacity style={styles.stationsButton}   onPress={() => {router.push("/explore");}}>
           <Text style={{color: 'black', fontWeight: 'bold'}}>⇄ Change Destination</Text>
         </TouchableOpacity>
       </View>

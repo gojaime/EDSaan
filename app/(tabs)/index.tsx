@@ -10,6 +10,7 @@ import StationSquare from '@/components/StationSquare';
 import { Link, useRouter, useLocalSearchParams } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useGlobalState } from "../../context/GlobalContext";
 
 import Toast from 'react-native-toast-message';
 
@@ -19,10 +20,8 @@ export default function App() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [startStation, setStart] = useState(-1);
-  const [endStation, setEnd] = useState(-1);
 
-  const { direction } = useLocalSearchParams();
-  
+  const { destinationIndex, setDestinationIndex, direction, setDirection } = useGlobalState();
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -82,8 +81,8 @@ export default function App() {
     <View style={styles.main}>
       <Toast />
       <View style={styles.header}>
-        <Text style={styles.paragraph}>{endStation==-1? 'Choose destination first,' : 'Next Bus Stop:'}</Text>
-        <Text style={{fontSize: 30, color: 'black'}}>{endStation==-1? 'Welcome to EDSaan' : stations[1].name}</Text>
+        <Text style={styles.paragraph}>{destinationIndex==-1? 'Choose destination first,' : 'Next Bus Stop:'}</Text>
+        <Text style={{fontSize: 30, color: 'black'}}>{destinationIndex==-1? 'Welcome to EDSaan' : stations[1].name}</Text>
         <Text style={{textAlign: 'center'}}>{'('+text+')'}</Text>
       </View>
       <View style={styles.mapContainer}>
@@ -112,7 +111,7 @@ export default function App() {
           <MaterialCommunityIcons name="bell" size={20} color="black" />
             <Text style={{color: 'black', fontSize: 13}}>Destination:</Text>
           </View>
-        <Text style={{color: 'black', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>{endStation == -1? 'Set your route first' : '🏁 ' + stations[endStation].name}</Text>
+        <Text style={{color: 'black', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>{destinationIndex == -1? 'Set your route first' : stations[destinationIndex].name}</Text>
         </View>
         <TouchableOpacity style={styles.stationsButton}   onPress={() => {router.push({ pathname: "/explore", params: { post: ""} });}}>
           <Text style={{color: 'white', fontWeight: 'bold', textAlign: 'center'}}>{'⇄ Change Route'}</Text>

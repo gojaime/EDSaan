@@ -73,7 +73,7 @@ const MyTabView = () => {
               onPress={() => {
                 router.push({
                   pathname: "/stationScreen",
-                  params: { post: item.name, direction: 'Northbound' },
+                  params: { post: item.name, direction: 'Northbound'},
                 });
               }}
             >
@@ -99,7 +99,7 @@ const MyTabView = () => {
               onPress={() => {
                 router.push({
                   pathname: "/stationScreen",
-                  params: { post: item.name, direction: 'Southbound' },
+                  params: { post: item.name, direction: 'Southbound', newIndex: index },
                 });
               }}
             >

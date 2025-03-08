@@ -13,7 +13,7 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
-  'location' : 'place',
+  'location' : 'route',
   'directions-bus' : 'directions-bus',
   'settings' : 'settings'
 } as Partial<

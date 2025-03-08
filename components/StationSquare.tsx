@@ -1,17 +1,20 @@
 import React from "react";
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { Link, useRouter } from 'expo-router';
+
 type StationSquareProps = {
   text: string;
 };
 
 const StationSquare: React.FC<StationSquareProps> = ({ text }) => {
+  const router = useRouter();
   return (
-    <View>
+    <TouchableOpacity onPress={() => {router.push({ pathname: "/stationScreen", params: { post: text} });}}>
       <View style={styles.box}>
         <Text style={{color: 'white', textAlign: 'center'}}>📍 {text}</Text>
       </View>
       <View style={styles.triangleCorner}></View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

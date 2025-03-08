@@ -15,6 +15,8 @@ export default function App() {
   const router = useRouter();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [startStation, setStart] = useState(-1);
+  const [endStation, setEnd] = useState(-1);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -73,9 +75,9 @@ export default function App() {
   return (
     <View style={styles.main}>
       <View style={styles.header}>
-        <Text style={styles.paragraph}>Next Bus Stop:</Text>
-        <Text style={{fontSize: 30, color: 'black'}}>{stations[1].name}</Text>
-        <Text>{text}</Text>
+        <Text style={styles.paragraph}>{endStation==-1? 'Choose destination first,' : 'Next Bus Stop:'}</Text>
+        <Text style={{fontSize: 30, color: 'black'}}>{endStation==-1? 'Welcome to EDSaan' : stations[1].name}</Text>
+        <Text style={{textAlign: 'center'}}>{'('+text+')'}</Text>
       </View>
       <View style={styles.mapContainer}>
         <ScrollView horizontal={true} alwaysBounceHorizontal={false} overScrollMode='never' style={{borderRadius: 10}}>
@@ -95,10 +97,10 @@ export default function App() {
       <View style={styles.footer}>
         <View style={{flex: 80}}>
         <Text style={{color: 'black', textAlign: 'center', fontSize: 13}}>Destination:</Text>
-        <Text style={{color: 'black', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>🏁 {stations[5].name}</Text>
+        <Text style={{color: 'black', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>{endStation == -1? 'Set your trip first' : '🏁 ' + stations[endStation].name}</Text>
         </View>
-        <TouchableOpacity style={styles.stationsButton}   onPress={() => {router.push("/explore");}}>
-          <Text style={{color: 'white', fontWeight: 'bold'}}>⇄ Change Destination</Text>
+        <TouchableOpacity style={styles.stationsButton}   onPress={() => {router.replace({ pathname: "/explore", params: { post: ""} });}}>
+          <Text style={{color: 'white', fontWeight: 'bold', textAlign: 'center'}}>{endStation==-1? '⇄ Set Destination' : '⇄ Change Destination'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
   },
   stationsButton: {
     padding: 10,
-    backgroundColor: '#CF0921',
+    backgroundColor: '#0038A8',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,

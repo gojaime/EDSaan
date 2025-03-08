@@ -32,7 +32,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false, navigationBarColor: 'white', statusBarStyle: 'dark' }} />
         <Stack.Screen name="+not-found" />
-        <Stack.Screen name="stationScreen" options={{title: 'Bus stop details', statusBarStyle: 'dark', statusBarBackgroundColor: 'light'}}/>
+        <Stack.Screen name="stationScreen" options={{title: 'Bus Stop Details', statusBarStyle: 'dark', statusBarBackgroundColor: 'light'}}/>
       </Stack>
       <StatusBar style="dark" />
     </ThemeProvider>

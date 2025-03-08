@@ -7,8 +7,11 @@ import * as Progress from 'react-native-progress';
 
 import StationSquare from '@/components/StationSquare';
 
-import { Link, useRouter } from 'expo-router';
-import { Route } from 'expo-router/build/Route';
+import { Link, useRouter, useLocalSearchParams } from 'expo-router';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+
+import Toast from 'react-native-toast-message';
 
 export default function App() {
 
@@ -17,6 +20,9 @@ export default function App() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [startStation, setStart] = useState(-1);
   const [endStation, setEnd] = useState(-1);
+
+  const { direction } = useLocalSearchParams();
+  
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -74,6 +80,7 @@ export default function App() {
 
   return (
     <View style={styles.main}>
+      <Toast />
       <View style={styles.header}>
         <Text style={styles.paragraph}>{endStation==-1? 'Choose destination first,' : 'Next Bus Stop:'}</Text>
         <Text style={{fontSize: 30, color: 'black'}}>{endStation==-1? 'Welcome to EDSaan' : stations[1].name}</Text>
@@ -84,7 +91,7 @@ export default function App() {
           <ImageBackground source={require('@/assets/images/backdrop.png')} resizeMode = 'repeat' resizeMethod='resize' style={styles.map}>
             <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
               {stations.map((station, index) => (
-              <StationSquare key={index} text={station.name} />))}
+              <StationSquare key={index} text={station.name} direction={direction} />))}
             </View>
             <View style={{flexDirection: 'row', marginTop: 40}}>
             {stations.map((station, index) => (
@@ -93,14 +100,22 @@ export default function App() {
             <Text style={styles.busIcon}>🚌</Text>
           </ImageBackground>
         </ScrollView>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 10}}>
+          <View style={{backgroundColor: '#f0f0f0', borderRadius: 10, padding: 5}}><Text style={{color: 'black'}}>{direction=='Southbound'? '◀ To Monumento' : '◀ To PITX'}</Text></View>
+          <View style={{backgroundColor: '#f0f0f0', borderRadius: 10, padding: 5}}><Text style={{color: 'black'}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
+          <View style={{backgroundColor: '#f0f0f0', borderRadius: 10, padding: 5}}><Text style={{color: 'black'}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
+        </View>
       </View>
       <View style={styles.footer}>
         <View style={{flex: 80}}>
-        <Text style={{color: 'black', textAlign: 'center', fontSize: 13}}>Destination:</Text>
-        <Text style={{color: 'black', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>{endStation == -1? 'Set your trip first' : '🏁 ' + stations[endStation].name}</Text>
+          <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>
+          <MaterialCommunityIcons name="bell" size={20} color="black" />
+            <Text style={{color: 'black', fontSize: 13}}>Destination:</Text>
+          </View>
+        <Text style={{color: 'black', textAlign: 'center', fontSize: 18, fontWeight: 'bold'}}>{endStation == -1? 'Set your route first' : '🏁 ' + stations[endStation].name}</Text>
         </View>
-        <TouchableOpacity style={styles.stationsButton}   onPress={() => {router.replace({ pathname: "/explore", params: { post: ""} });}}>
-          <Text style={{color: 'white', fontWeight: 'bold', textAlign: 'center'}}>{endStation==-1? '⇄ Set Destination' : '⇄ Change Destination'}</Text>
+        <TouchableOpacity style={styles.stationsButton}   onPress={() => {router.push({ pathname: "/explore", params: { post: ""} });}}>
+          <Text style={{color: 'white', fontWeight: 'bold', textAlign: 'center'}}>{'⇄ Change Route'}</Text>
         </TouchableOpacity>
       </View>
 

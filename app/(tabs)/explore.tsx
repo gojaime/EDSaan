@@ -1,112 +1,170 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, useWindowDimensions, FlatList, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Link, useRouter } from 'expo-router';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useLocalSearchParams, Link, useRouter } from "expo-router";
 
-export default function TabTwoScreen() {
+const sbstations = [
+  { name: 'Monumento', lat: 100, lon: 200 },
+  { name: 'Bagong Barrio', lat: 100, lon: 300 },
+  { name: 'Balintawak', lat: 100, lon: 400 },
+  { name: 'Kaingin Road', lat: 100, lon: 400 },
+  { name: 'LRT 1- Roosevelt Station', lat: 100, lon: 400 },
+  { name: 'MRT 3 North Avenue', lat: 100, lon: 400 },
+  { name: 'MRT 3 Quezon Avenue', lat: 100, lon: 400 },
+  { name: 'Nepa Q-Mart', lat: 100, lon: 400 },
+  { name: 'Main Ave (Cubao)', lat: 100, lon: 400 },
+  { name: 'MRT 3 Santolan Station', lat: 100, lon: 400 },
+  { name: 'MRT 3 Ortigas Station', lat: 100, lon: 400 },
+  { name: 'Guadalupe Bridge', lat: 100, lon: 400 },
+  { name: 'MRT 3 Buendia Station', lat: 100, lon: 400 },
+  { name: 'MRT 3 Ayala Station (curbside)', lat: 100, lon: 400 },
+  { name: 'Taft Avenue', lat: 100, lon: 400 },
+  { name: 'Roxas Boulevard', lat: 100, lon: 400 },
+  { name: 'SM Mall of Asia (curbside)', lat: 100, lon: 400 },
+  { name: 'Macapagal - DFA (curbside)', lat: 100, lon: 400 },
+  { name: 'Macapagal - City of Dreams (curbside)', lat: 100, lon: 400 },
+  { name: 'PITX', lat: 100, lon: 400 },
+];
+
+const nbstations = [
+  { name: 'PITX', lat: 100, lon: 200 },
+  { name: 'Macapagal - City of Dreams (curbside)', lat: 100, lon: 300 },
+  { name: 'Macapagal - DFA (curbside)', lat: 100, lon: 400 },
+  { name: 'Roxas Boulevard', lat: 100, lon: 400 },
+  { name: 'Taft Avenue', lat: 100, lon: 400 },
+  { name: 'MRT 3 Ayala Station (curbside)', lat: 100, lon: 400 },
+  { name: 'MRT 3 Buendia Station', lat: 100, lon: 400 },
+  { name: 'Guadalupe Bridge', lat: 100, lon: 400 },
+  { name: 'MRT 3 Ortigas Station', lat: 100, lon: 400 },
+  { name: 'MRT 3 Santolan Station', lat: 100, lon: 400 },
+  { name: 'Main Ave (Cubao)', lat: 100, lon: 400 },
+  { name: 'Nepa Q-Mart', lat: 100, lon: 400 },
+  { name: 'MRT 3 Quezon Avenue Station', lat: 100, lon: 400 },
+  { name: 'MRT 3 North Avenue', lat: 100, lon: 400 },
+  { name: 'LRT-1 Roosevelt Station', lat: 100, lon: 400 },
+  { name: 'Kaingin Road', lat: 100, lon: 400 },
+  { name: 'Balintawak', lat: 100, lon: 400 },
+  { name: 'Bagong Barrio', lat: 100, lon: 400 },
+  { name: 'Monumento', lat: 100, lon: 400 }
+];
+
+const MyTabView = () => {
   const router = useRouter();
-  const { post } = useLocalSearchParams();
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">{post}</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+  const layout = useWindowDimensions();
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: 'first', title: '↑ Northbound' },
+    { key: 'second', title: '↓ Southbound' },
+  ]);
+
+  // Define your screens
+  const FirstRoute = () => (
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <FlatList
+        data={nbstations}
+        keyExtractor={(item, index) => index.toString()} // Maintain original indexing
+        renderItem={({ item, index }) =>
+          index === 0 ? <View style={{ height: 0, opacity: 0 }} /> : ( // Hide the first item
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => {
+                router.push({
+                  pathname: "/stationScreen",
+                  params: { post: item.name, direction: 'Northbound' },
+                });
+              }}
+            >
+              <FontAwesome name="map-pin" size={13} color="red" />
+              <Text style={styles.text}>{'  '}{item.name}</Text>
+            </TouchableOpacity>
+          )
+        }
+      />
+
+    </View>
   );
-}
+
+  const SecondRoute = () => (
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <FlatList
+        data={sbstations}
+        keyExtractor={(item, index) => index.toString()} // Maintain original indexing
+        renderItem={({ item, index }) =>
+          index === 0 ? <View style={{ height: 0, opacity: 0 }} /> : ( // Hide the first item
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => {
+                router.push({
+                  pathname: "/stationScreen",
+                  params: { post: item.name, direction: 'Southbound' },
+                });
+              }}
+            >
+              <FontAwesome name="map-pin" size={13} color="red" />
+              <Text style={styles.text}>{'  '}{item.name}</Text>
+            </TouchableOpacity>
+          )
+        }
+      />
+
+    </View>
+  );
+
+  const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+  });
+
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
+      <View style={{flex: 25, justifyContent: 'center'}}>
+        <Text style={{textAlign: 'center', fontSize: 23}}>Choose your direction and destination:</Text>
+      </View>
+      <TabView
+        style={{flex: 75}}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+        renderTabBar={props => (
+          <TabBar
+            {...props}
+            style={{ backgroundColor: '#ffffff' }} // White tab bar background
+            activeColor="#000000" // Black text for active tab
+            inactiveColor="#666666" // Gray text for inactive tabs
+            indicatorStyle={{ backgroundColor: '#0035AA', height: 3 }} // Blue underline (active tab)
+          />
+        )}
+      />
+    </SafeAreaView>
+  );
+};
+
+export default MyTabView;
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff', // White background
+    padding: 10,
   },
-  titleContainer: {
+  item: {
+    padding: 15,
+    marginVertical: 5,
+    backgroundColor: '#f0f0f0', // Light gray background
+    borderRadius: 10,
+    margin: 20,
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center'
+  },
+  text: {
+    fontSize: 16,
+    color: '#000000', // Black text
+    fontWeight: 'bold',
   },
 });
+

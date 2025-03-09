@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import React, { useRef } from "react";
 import { Platform, Text, View, StyleSheet, ScrollView, StatusBar, Button, TouchableOpacity, ImageBackground, Image } from 'react-native';
 
 import * as Location from 'expo-location';
@@ -14,109 +15,109 @@ import { useGlobalState } from "../../context/GlobalContext";
 
 import Toast from 'react-native-toast-message';
 
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+
 export default function App() {
+
+
+  const scrollViewRef = useRef<ScrollView>(null); // Create a ref for ScrollView
+
+  const scrollToPosition = (xValue: number) => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ x: xValue, animated: true }); // Scroll to X position
+    }
+  };
+
+  const haversineDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+    const toRad = (x: number) => (x * Math.PI) / 180;
+    const R = 6371; // Radius of the Earth in km
+  
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+  
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  
+    return R * c; // Returns the distance in kilometers
+  };
+
+  const findNearestStationIndexToRight = (
+    currentLat: number,
+    currentLon: number,
+    stations: { name: string; lat: number; lon: number }[]
+  ): number => {
+    // Find the closest station based on geographical location first
+    let nearestIndex = 0;
+    let minDistance = Infinity;
+  
+    for (let i = 0; i < stations.length; i++) {
+      const distance = haversineDistance(currentLat, currentLon, stations[i].lat, stations[i].lon);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestIndex = i;
+      }
+    }
+  
+    // If the nearest station is the last one in the list, return it (no station to the right)
+    if (nearestIndex >= stations.length - 1) {
+      return nearestIndex;
+    }
+  
+    // Otherwise, return the next station in the array (side-by-side order)
+    return nearestIndex + 1;
+  };
 
   const router = useRouter();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [startStation, setStart] = useState(-1);
 
-  const { destinationIndex, setDestinationIndex, direction, setDirection } = useGlobalState();
+  const { destinationIndex, setDestinationIndex,
+          direction, setDirection,
+          nextStation, setNextStation,
+          latitude,
+          longitude,
+          sbstations,
+          nbstations
+        } = useGlobalState();
+
+  const stations = direction === "Southbound" ? sbstations : nbstations;
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    async function getCurrentLocation() {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let loc = await Location.getCurrentPositionAsync({});
-      setLocation(loc);
-    }
-
-    // Initial fetch
-    getCurrentLocation();
-
-    // Update every 5 seconds
-    interval = setInterval(() => {
-      getCurrentLocation();
-    }, 1000);
-  }, []);
-
-  let text = 'Loading location...';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = location.coords.latitude.toString() + " " + location.coords.longitude.toString();
-  }
-
-  const sbstations = [
-    { name: 'Monumento', lat: 100, lon: 200 },
-    { name: 'Bagong Barrio', lat: 100, lon: 300 },
-    { name: 'Balintawak', lat: 100, lon: 400 },
-    { name: 'Kaingin Road', lat: 100, lon: 400 },
-    { name: 'LRT 1- Roosevelt Station', lat: 100, lon: 400 },
-    { name: 'MRT 3 North Avenue', lat: 100, lon: 400 },
-    { name: 'MRT 3 Quezon Avenue', lat: 100, lon: 400 },
-    { name: 'Nepa Q-Mart', lat: 100, lon: 400 },
-    { name: 'Main Ave (Cubao)', lat: 100, lon: 400 },
-    { name: 'MRT 3 Santolan Station', lat: 100, lon: 400 },
-    { name: 'MRT 3 Ortigas Station', lat: 100, lon: 400 },
-    { name: 'Guadalupe Bridge', lat: 100, lon: 400 },
-    { name: 'MRT 3 Buendia Station', lat: 100, lon: 400 },
-    { name: 'MRT 3 Ayala Station (curbside)', lat: 100, lon: 400 },
-    { name: 'Taft Avenue', lat: 100, lon: 400 },
-    { name: 'Roxas Boulevard', lat: 100, lon: 400 },
-    { name: 'SM Mall of Asia (curbside)', lat: 100, lon: 400 },
-    { name: 'Macapagal - DFA (curbside)', lat: 100, lon: 400 },
-    { name: 'Macapagal - City of Dreams (curbside)', lat: 100, lon: 400 },
-    { name: 'PITX', lat: 100, lon: 400 },
-  ];
+    if (nextStation === -1 || longitude === 0 || latitude === 0) return; // Ensure valid values
   
-  const nbstations = [
-    { name: 'PITX', lat: 100, lon: 200 },
-    { name: 'Macapagal - City of Dreams (curbside)', lat: 100, lon: 300 },
-    { name: 'Macapagal - DFA (curbside)', lat: 100, lon: 400 },
-    { name: 'Roxas Boulevard', lat: 100, lon: 400 },
-    { name: 'Taft Avenue', lat: 100, lon: 400 },
-    { name: 'MRT 3 Ayala Station (curbside)', lat: 100, lon: 400 },
-    { name: 'MRT 3 Buendia Station', lat: 100, lon: 400 },
-    { name: 'Guadalupe Bridge', lat: 100, lon: 400 },
-    { name: 'MRT 3 Ortigas Station', lat: 100, lon: 400 },
-    { name: 'MRT 3 Santolan Station', lat: 100, lon: 400 },
-    { name: 'Main Ave (Cubao)', lat: 100, lon: 400 },
-    { name: 'Nepa Q-Mart', lat: 100, lon: 400 },
-    { name: 'MRT 3 Quezon Avenue Station', lat: 100, lon: 400 },
-    { name: 'MRT 3 North Avenue', lat: 100, lon: 400 },
-    { name: 'LRT-1 Roosevelt Station', lat: 100, lon: 400 },
-    { name: 'Kaingin Road', lat: 100, lon: 400 },
-    { name: 'Balintawak', lat: 100, lon: 400 },
-    { name: 'Bagong Barrio', lat: 100, lon: 400 },
-    { name: 'Monumento', lat: 100, lon: 400 }
-  ];
-
-  let stations = sbstations;
-
-  if (direction == 'Southbound'){
-     stations = sbstations;
-  }
-  else{
-      stations = nbstations;
-  }
+    const thresholdDistance = 0.03; // 50 meters (converted from km)
+    
+    const currentNextStation = stations[nextStation]; // Get current next station
+  
+    if (!currentNextStation) return; // Safety check
+  
+    const distanceToNextStation = haversineDistance(
+      latitude, longitude,
+      currentNextStation.lat, currentNextStation.lon
+    );
+  
+    if (distanceToNextStation <= thresholdDistance) {
+      // Find the next nearest station to the right
+      // const newNextStation = findNearestStationIndexToRight(latitude, longitude, stations);
+      setNextStation(nextStation + 1);
+    }
+  }, [latitude, longitude, nextStation]);
 
   return (
     <View style={styles.main}>
       <Toast />
       <View style={styles.header}>
         <Text style={styles.paragraph}>{destinationIndex==-1? 'Choose destination first,' : 'Next Bus Stop:'}</Text>
-        <Text style={{fontSize: 30, color: 'black'}}>{destinationIndex==-1? 'Welcome to EDSaan' : stations[1].name}</Text>
-        <Text style={{textAlign: 'center'}}>{'('+text+')'}</Text>
+        <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{destinationIndex==-1? 'Welcome to EDSaan' : stations[nextStation].name}</Text>
+        <Text style={{textAlign: 'center'}}>{latitude!=0? latitude + ' ' + longitude : 'Loading Location...'}</Text>
       </View>
       <View style={styles.mapContainer}>
-        <ScrollView horizontal={true} alwaysBounceHorizontal={false} overScrollMode='never' style={{borderRadius: 10}}>
+        <ScrollView horizontal={true} alwaysBounceHorizontal={false} overScrollMode='never' style={{borderRadius: 10}}  ref={scrollViewRef}>
           <ImageBackground source={require('@/assets/images/backdrop.png')} resizeMode = 'repeat' resizeMethod='resize' style={styles.map}>
             <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
               {stations.map((station, index) => (
@@ -124,16 +125,24 @@ export default function App() {
             </View>
             <View style={{flexDirection: 'row', marginTop: 40}}>
             {stations.map((station, index) => (
-              <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
+              index == 0? <View key={index}></View> : <Progress.Bar progress={index==nextStation? 1 - (haversineDistance(latitude,longitude,stations[nextStation].lat, stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat,stations[nextStation-1].lon,stations[nextStation].lat, stations[nextStation].lon)) : nextStation > index? 1 : 0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
+            <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} unfilledColor='gray'/>
             </View>
+            
             <Image
-              style={styles.busIcon}
+              style={{
+                shadowColor: 'black',
+                position: 'absolute',
+                marginLeft: nextStation != -1? ((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250) : 0,
+                height: 40,
+                width: 80
+              }}
               source={require('@/assets/images/bus.png')}/>
           </ImageBackground>
         </ScrollView>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 10}}>
-          <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? '◀ To Monumento' : '◀ To PITX'}</Text></View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 10}}>
           <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
+          <TouchableOpacity style={styles.directionIndicator} onPress={() => {scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250))}}><FontAwesome6 name="location-crosshairs" size={16} color="black" /><Text style={{color: 'black', fontWeight: 'bold'}}>  Locate Self</Text></TouchableOpacity>
           <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
         </View>
       </View>
@@ -204,16 +213,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginVertical: 'auto'
   },
-  busIcon: {
-    shadowColor: 'black',
-    position: 'absolute',
-    marginLeft: 30,
-    height: 40,
-    width: 80
-  },
   directionIndicator: {
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
-    padding: 5
+    padding: 5,
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });

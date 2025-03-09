@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet, ScrollView, StatusBar, Button, TouchableOpacity, ImageBackground } from 'react-native';
+import { Platform, Text, View, StyleSheet, ScrollView, StatusBar, Button, TouchableOpacity, ImageBackground, Image } from 'react-native';
 
 import * as Location from 'expo-location';
 
@@ -126,13 +126,15 @@ export default function App() {
             {stations.map((station, index) => (
               <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
             </View>
-            <Text style={styles.busIcon}>🚌</Text>
+            <Image
+              style={styles.busIcon}
+              source={require('@/assets/images/bus.png')}/>
           </ImageBackground>
         </ScrollView>
         <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 10}}>
-          <View style={{backgroundColor: '#f0f0f0', borderRadius: 10, padding: 5}}><Text style={{color: 'black'}}>{direction=='Southbound'? '◀ To Monumento' : '◀ To PITX'}</Text></View>
-          <View style={{backgroundColor: '#f0f0f0', borderRadius: 10, padding: 5}}><Text style={{color: 'black'}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
-          <View style={{backgroundColor: '#f0f0f0', borderRadius: 10, padding: 5}}><Text style={{color: 'black'}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
+          <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? '◀ To Monumento' : '◀ To PITX'}</Text></View>
+          <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
+          <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
         </View>
       </View>
       <View style={styles.footer}>
@@ -203,12 +205,15 @@ const styles = StyleSheet.create({
     marginVertical: 'auto'
   },
   busIcon: {
-    textShadowColor: 'blue',
-    textShadowRadius: 3,
-    fontSize:40,
     shadowColor: 'black',
-    transform: [{ scaleX: -1 }],
     position: 'absolute',
-    marginLeft: 30
+    marginLeft: 30,
+    height: 40,
+    width: 80
+  },
+  directionIndicator: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    padding: 5
   }
 });

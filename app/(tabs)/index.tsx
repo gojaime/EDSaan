@@ -86,7 +86,19 @@ export default function App() {
         } = useGlobalState();
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
+  const [hasScrolled, setHasScrolled] = useState(false); // Track if initial scroll happened
 
+  useEffect(() => {
+    if (nextStation != -1 && hasScrolled == false) {
+      scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250));
+      setHasScrolled(true);
+    }
+    // Call any function you need to run once
+  }, [nextStation, latitude,longitude]);
+
+
+
+ // Run when GPS is updated
   useEffect(() => {
     if (nextStation === -1 || longitude === 0 || latitude === 0) return; // Ensure valid values
   
@@ -104,7 +116,9 @@ export default function App() {
     if (distanceToNextStation <= thresholdDistance) {
       // Find the next nearest station to the right
       // const newNextStation = findNearestStationIndexToRight(latitude, longitude, stations);
+      console.log('You are now at ' + stations[nextStation].name);
       setNextStation(nextStation + 1);
+      scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250))
     }
   }, [latitude, longitude, nextStation]);
 

@@ -1,10 +1,7 @@
 import { StyleSheet, Image, Platform, View,Text, TouchableOpacity } from 'react-native';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useLocalSearchParams, Link, useRouter } from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -13,14 +10,13 @@ import { setParams } from 'expo-router/build/global-state/routing';
 import { useGlobalState } from "../context/GlobalContext";
 
 export default function TabTwoScreen() {
-  const { post } = useLocalSearchParams();
-  const { direction } = useLocalSearchParams();
-  const { newindex } = useLocalSearchParams();
+  const { post, newIndex, direction } = useLocalSearchParams();
+  const {  } = useLocalSearchParams();
   const router = useRouter();
 
   const { destinationIndex, setDestinationIndex, setDirection } = useGlobalState();
 
-  const newIndexParsed = Number(newindex);
+  const newIndexParsed = Number(newIndex);
 
   return (
     <ParallaxScrollView
@@ -36,7 +32,7 @@ export default function TabTwoScreen() {
       <View style={{backgroundColor: 'white'}}>
         <ThemedText type="title" darkColor='dark'>{post}</ThemedText>
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10}}>
-          <TouchableOpacity style={{backgroundColor: '#0038A8', borderRadius: 10, padding: 5, marginRight: 10, flex: 75, justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row'}} onPress={() => {router.replace({pathname: '/'}); setDirection(direction.toString()); setDestinationIndex(18) }}><Text style={{color: 'white', fontSize: 14, flex: 75, textAlign: 'center'}}>{'Set as Destination (' + direction + ')'}</Text><Ionicons name="send" size={20} color="white" style={{flex: 25}}/></TouchableOpacity>
+          <TouchableOpacity style={{backgroundColor: '#0038A8', borderRadius: 10, padding: 5, marginRight: 10, flex: 75, justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row'}} onPress={() => {router.replace({pathname: '/'}); setDirection(direction.toString()); setDestinationIndex(newIndexParsed) }}><Text style={{color: 'white', fontSize: 14, flex: 75, textAlign: 'center'}}>{'Set as Destination (' + direction + ')'}</Text><Ionicons name="send" size={20} color="white" style={{flex: 25}}/></TouchableOpacity>
           <TouchableOpacity style={{backgroundColor: '#fcd20f', borderRadius: 10, padding: 5, flex: 25, justifyContent: 'center', alignItems: 'center'}}><Entypo name="map" size={24} color="black" /></TouchableOpacity>
         </View>
         <View style={{marginTop: 20}}>

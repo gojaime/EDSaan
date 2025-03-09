@@ -53,29 +53,59 @@ export default function App() {
     text = location.coords.latitude.toString() + " " + location.coords.longitude.toString();
   }
 
-  const stations =[
-    {name: 'Monumento', lat: 100, lon:200},
-    {name: 'Bagong Barrio', lat: 100, lon:300},
-    {name: 'Balintawak', lat: 100, lon:400},
-    {name: 'Kaingin Road', lat: 100, lon:400},
-    {name: 'LRT 1- Roosevelt Station', lat: 100, lon:400},
-    {name: 'MRT 3 North Avenue', lat: 100, lon:400},
-    {name: 'MRT 3 Quezon Avenue', lat: 100, lon:400},
-    {name: 'Nepa Q-Mart', lat: 100, lon:400},
-    {name: 'Main Ave (Cubao)', lat: 100, lon:400},
-    {name: 'MRT 3 Santolan Station', lat: 100, lon:400},
-    {name: 'MRT 3 Ortigas Station', lat: 100, lon:400},
-    {name: 'Guadalupe Bridge', lat: 100, lon:400},
-    {name: 'MRT 3 Buendia Station', lat: 100, lon:400},
-    {name: 'MRT 3 Ayala Station (curbside)', lat: 100, lon:400},
-    {name: 'Taft Avenue', lat: 100, lon:400},
-    {name: 'Roxas Boulevard', lat: 100, lon:400},
-    {name: 'SM Mall of Asia (curbside)', lat: 100, lon:400},
-    {name: 'Macapagal - DFA (curbside)', lat: 100, lon:400},
-    {name: 'Macapagal - City of Dreams (curbside)', lat: 100, lon:400},
-    {name: 'PITX', lat: 100, lon:400},
-    
-  ]
+  const sbstations = [
+    { name: 'Monumento', lat: 100, lon: 200 },
+    { name: 'Bagong Barrio', lat: 100, lon: 300 },
+    { name: 'Balintawak', lat: 100, lon: 400 },
+    { name: 'Kaingin Road', lat: 100, lon: 400 },
+    { name: 'LRT 1- Roosevelt Station', lat: 100, lon: 400 },
+    { name: 'MRT 3 North Avenue', lat: 100, lon: 400 },
+    { name: 'MRT 3 Quezon Avenue', lat: 100, lon: 400 },
+    { name: 'Nepa Q-Mart', lat: 100, lon: 400 },
+    { name: 'Main Ave (Cubao)', lat: 100, lon: 400 },
+    { name: 'MRT 3 Santolan Station', lat: 100, lon: 400 },
+    { name: 'MRT 3 Ortigas Station', lat: 100, lon: 400 },
+    { name: 'Guadalupe Bridge', lat: 100, lon: 400 },
+    { name: 'MRT 3 Buendia Station', lat: 100, lon: 400 },
+    { name: 'MRT 3 Ayala Station (curbside)', lat: 100, lon: 400 },
+    { name: 'Taft Avenue', lat: 100, lon: 400 },
+    { name: 'Roxas Boulevard', lat: 100, lon: 400 },
+    { name: 'SM Mall of Asia (curbside)', lat: 100, lon: 400 },
+    { name: 'Macapagal - DFA (curbside)', lat: 100, lon: 400 },
+    { name: 'Macapagal - City of Dreams (curbside)', lat: 100, lon: 400 },
+    { name: 'PITX', lat: 100, lon: 400 },
+  ];
+  
+  const nbstations = [
+    { name: 'PITX', lat: 100, lon: 200 },
+    { name: 'Macapagal - City of Dreams (curbside)', lat: 100, lon: 300 },
+    { name: 'Macapagal - DFA (curbside)', lat: 100, lon: 400 },
+    { name: 'Roxas Boulevard', lat: 100, lon: 400 },
+    { name: 'Taft Avenue', lat: 100, lon: 400 },
+    { name: 'MRT 3 Ayala Station (curbside)', lat: 100, lon: 400 },
+    { name: 'MRT 3 Buendia Station', lat: 100, lon: 400 },
+    { name: 'Guadalupe Bridge', lat: 100, lon: 400 },
+    { name: 'MRT 3 Ortigas Station', lat: 100, lon: 400 },
+    { name: 'MRT 3 Santolan Station', lat: 100, lon: 400 },
+    { name: 'Main Ave (Cubao)', lat: 100, lon: 400 },
+    { name: 'Nepa Q-Mart', lat: 100, lon: 400 },
+    { name: 'MRT 3 Quezon Avenue Station', lat: 100, lon: 400 },
+    { name: 'MRT 3 North Avenue', lat: 100, lon: 400 },
+    { name: 'LRT-1 Roosevelt Station', lat: 100, lon: 400 },
+    { name: 'Kaingin Road', lat: 100, lon: 400 },
+    { name: 'Balintawak', lat: 100, lon: 400 },
+    { name: 'Bagong Barrio', lat: 100, lon: 400 },
+    { name: 'Monumento', lat: 100, lon: 400 }
+  ];
+
+  let stations = sbstations;
+
+  if (direction == 'Southbound'){
+     stations = sbstations;
+  }
+  else{
+      stations = nbstations;
+  }
 
   return (
     <View style={styles.main}>
@@ -90,7 +120,7 @@ export default function App() {
           <ImageBackground source={require('@/assets/images/backdrop.png')} resizeMode = 'repeat' resizeMethod='resize' style={styles.map}>
             <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
               {stations.map((station, index) => (
-              <StationSquare key={index} text={station.name} direction={direction} />))}
+              <StationSquare key={index} text={station.name} direction={direction} index = {index}/>))}
             </View>
             <View style={{flexDirection: 'row', marginTop: 40}}>
             {stations.map((station, index) => (

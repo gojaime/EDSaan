@@ -11,7 +11,7 @@ const GlobalContext = createContext<GlobalState | undefined>(undefined);
 
 export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [destinationIndex, setDestinationIndex] = useState<number>(-1);
-  const [direction, setDirection] = useState<string>("Northbound");
+  const [direction, setDirection] = useState<string>("Southbound");
 
   return (
     <GlobalContext.Provider value={{ destinationIndex, setDestinationIndex, direction, setDirection }}>

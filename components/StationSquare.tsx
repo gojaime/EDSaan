@@ -4,19 +4,23 @@ import { Link, useRouter } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import { useGlobalState } from "../context/GlobalContext";
 
 type StationSquareProps = {
   text: string;
   direction: string|string[];
+  index: number;
 };
 
-const StationSquare: React.FC<StationSquareProps> = ({ text, direction }) => {
+const StationSquare: React.FC<StationSquareProps> = ({ text, direction, index }) => {
   const router = useRouter();
+
+  const { destinationIndex, setDestinationIndex, setDirection } = useGlobalState();
 
   return (
     <TouchableOpacity onPress={() => {
-      if (direction){
-        router.push({ pathname: "/stationScreen", params: { post: text, direction: direction} });
+      if (destinationIndex != -1){
+        router.push({ pathname: "/stationScreen", params: { post: text, direction: direction, newIndex: index} });
       }
       else{
         router.push({ pathname: "/explore", params: { post: ""} });

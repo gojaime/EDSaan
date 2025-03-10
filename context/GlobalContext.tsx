@@ -42,25 +42,39 @@ const findNearestStationIndexToRight = (
   currentLon: number,
   stations: { name: string; lat: number; lon: number }[]
 ): number => {
-  const stationsToTheRight = stations
-    .map((station, index) => ({ ...station, index }))
-    .filter(station => station.lon > currentLon);
+  if (stations.length < 2) return 0; // Ensure there are enough stations
 
-  if (stationsToTheRight.length === 0) return 0;
+  let firstNearestIndex = -1;
+  let secondNearestIndex = -1;
+  let minDistance1 = Infinity;
+  let minDistance2 = Infinity;
 
-  let nearestStation = stationsToTheRight[0];
-  let minDistance = haversineDistance(currentLat, currentLon, nearestStation.lat, nearestStation.lon);
+  // Find the two nearest stations
+  for (let i = 0; i < stations.length; i++) {
+    const distance = haversineDistance(currentLat, currentLon, stations[i].lat, stations[i].lon);
 
-  stationsToTheRight.forEach(station => {
-    const distance = haversineDistance(currentLat, currentLon, station.lat, station.lon);
-    if (distance < minDistance) {
-      nearestStation = station;
-      minDistance = distance;
+    if (distance < minDistance1) {
+      // Shift the first nearest to second nearest
+      minDistance2 = minDistance1;
+      secondNearestIndex = firstNearestIndex;
+      
+      // Update first nearest
+      minDistance1 = distance;
+      firstNearestIndex = i;
+    } else if (distance < minDistance2) {
+      // Update second nearest
+      minDistance2 = distance;
+      secondNearestIndex = i;
     }
-  });
+  }
 
-  return nearestStation.index === 0 && stationsToTheRight.length > 1 ? stationsToTheRight[1].index : nearestStation.index;
+  // Ensure valid indices
+  if (firstNearestIndex === -1 || secondNearestIndex === -1) return 0;
+
+  // Pick the station that appears later in the array (the one on the right)
+  return Math.max(firstNearestIndex, secondNearestIndex);
 };
+
 
 export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [destinationIndex, setDestinationIndex] = useState<number>(-1);

@@ -50,26 +50,39 @@ export default function App() {
     currentLon: number,
     stations: { name: string; lat: number; lon: number }[]
   ): number => {
-    // Find the closest station based on geographical location first
-    let nearestIndex = 0;
-    let minDistance = Infinity;
+    if (stations.length < 2) return 0; // Ensure there are enough stations
   
+    let firstNearestIndex = -1;
+    let secondNearestIndex = -1;
+    let minDistance1 = Infinity;
+    let minDistance2 = Infinity;
+  
+    // Find the two nearest stations
     for (let i = 0; i < stations.length; i++) {
       const distance = haversineDistance(currentLat, currentLon, stations[i].lat, stations[i].lon);
-      if (distance < minDistance) {
-        minDistance = distance;
-        nearestIndex = i;
+  
+      if (distance < minDistance1) {
+        // Shift the first nearest to second nearest
+        minDistance2 = minDistance1;
+        secondNearestIndex = firstNearestIndex;
+        
+        // Update first nearest
+        minDistance1 = distance;
+        firstNearestIndex = i;
+      } else if (distance < minDistance2) {
+        // Update second nearest
+        minDistance2 = distance;
+        secondNearestIndex = i;
       }
     }
   
-    // If the nearest station is the last one in the list, return it (no station to the right)
-    if (nearestIndex >= stations.length - 1) {
-      return nearestIndex;
-    }
+    // Ensure valid indices
+    if (firstNearestIndex === -1 || secondNearestIndex === -1) return 0;
   
-    // Otherwise, return the next station in the array (side-by-side order)
-    return nearestIndex + 1;
+    // Pick the station that appears later in the array (the one on the right)
+    return Math.max(firstNearestIndex, secondNearestIndex);
   };
+  
 
   const router = useRouter();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
@@ -116,7 +129,7 @@ export default function App() {
     if (distanceToNextStation <= thresholdDistance) {
       // Find the next nearest station to the right
       // const newNextStation = findNearestStationIndexToRight(latitude, longitude, stations);
-      console.log('You are now at ' + stations[nextStation].name);
+      console.log('You are now at ' + stations[nextStation].name + ' next index: ' + nextStation);
       setNextStation(nextStation + 1);
       scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250))
     }
@@ -139,7 +152,7 @@ export default function App() {
             </View>
             <View style={{flexDirection: 'row', marginTop: 40}}>
             {stations.map((station, index) => (
-              index == 0? <View key={index}></View> : <Progress.Bar progress={index==nextStation? 1 - (haversineDistance(latitude,longitude,stations[nextStation].lat, stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat,stations[nextStation-1].lon,stations[nextStation].lat, stations[nextStation].lon)) : nextStation > index? 1 : 0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
+              index == 0? <View key={index}></View> : <Progress.Bar animated={false} progress={index==nextStation? 1 - (haversineDistance(latitude,longitude,stations[nextStation].lat, stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat,stations[nextStation-1].lon,stations[nextStation].lat, stations[nextStation].lon)) : nextStation > index? 1 : 0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
             <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} unfilledColor='gray'/>
             </View>
             
@@ -156,7 +169,7 @@ export default function App() {
         </ScrollView>
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 10}}>
           <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
-          <TouchableOpacity style={styles.directionIndicator} onPress={() => {scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250))}}><FontAwesome6 name="location-crosshairs" size={16} color="black" /><Text style={{color: 'black', fontWeight: 'bold'}}>  Locate Self</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250))}}><FontAwesome6 name="location-crosshairs" size={16} color="black" /><Text style={{color: 'black', fontWeight: 'bold'}}>  Locate Self</Text></TouchableOpacity>
           <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
         </View>
       </View>

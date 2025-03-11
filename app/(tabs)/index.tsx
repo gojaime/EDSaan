@@ -189,7 +189,8 @@ export default function App() {
                   : (1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
                   haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
               ) 
-            : 0)
+            : 0);
+          
         
         }
         // pag nakaalis na ulet,
@@ -241,7 +242,8 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.paragraph}>{nextStation==-1? '' : arrive==false? 'Next bus stop:': 'You are now at:' }</Text>
         <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{nextStation == -1? 'Welcome to EDSaan': arrive==false? stations[nextStation].name : stations[currentStation!].name}</Text>
-        <Text style={{textAlign: 'center'}}>{latitude!=0? latitude + ' ' + longitude : 'Loading Location...'}</Text>
+        <Text style={{textAlign: 'center'}}>{arrive==true? destinationIndex==currentStation? 'This is your stop!' : 'Next station: ' + stations[nextStation].name : ''}</Text>
+        <Text style={{textAlign: 'center'}}>{latitude!=0? '': 'Loading Location...'}</Text>
       </View>
       <View style={styles.mapContainer}>
         <ScrollView horizontal={true} alwaysBounceHorizontal={false} overScrollMode='never' style={{borderRadius: 10}}  ref={scrollViewRef}>

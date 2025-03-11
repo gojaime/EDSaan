@@ -14,6 +14,8 @@ interface GlobalState {
   errorMsg: string | null;
   sbstations: { name: string; lat: number; lon: number }[];
   nbstations: { name: string; lat: number; lon: number }[];
+  currentStation: number | null; // ✅ Added this
+  setCurrentStation: (index: number | null) => void; // ✅ Added setter
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -36,7 +38,6 @@ const haversineDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * c; // Distance in kilometers
 };
 
-
 export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [destinationIndex, setDestinationIndex] = useState<number>(-1);
   const [direction, setDirection] = useState<string>("Southbound");
@@ -45,8 +46,9 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [latitude, setLatitude] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [hasSetNextStation, setHasSetNextStation] = useState<boolean>(false);
+  const [currentStation, setCurrentStation] = useState<number | null>(null); // ✅ Added this
 
-  // Define stations
+  // Define stations (unchanged)
   const sbstations = [
     { name: 'Monumento', lat: 14.163656307700219, lon: 121.24062337975099 },
     { name: 'Bagong Barrio', lat: 14.161938421541077, lon: 121.24077583762917 },
@@ -132,6 +134,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         errorMsg,
         sbstations,
         nbstations,
+        currentStation, // ✅ Added this
+        setCurrentStation, // ✅ Added setter
       }}
     >
       {children}

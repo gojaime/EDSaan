@@ -44,12 +44,16 @@ export default function App() {
   
     return R * c; // Returns the distance in kilometers
   };
+
+
+  
   
 
   const router = useRouter();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [startStation, setStart] = useState(-1);
+  const [arrive, setArrive] = useState(false);
 
   const { destinationIndex, setDestinationIndex,
           direction, setDirection,
@@ -57,10 +61,94 @@ export default function App() {
           latitude,
           longitude,
           sbstations,
-          nbstations
+          nbstations,
+          currentStation, setCurrentStation
         } = useGlobalState();
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
+
+  const findNearestStation = (latitude: number, longitude: number, stations: { lat: number; lon: number }[]) => {
+    // if (stations.length === 0) return null; // Return null if no stations exist
+  
+    let nearestIndex = 0;
+    let minDistance = haversineDistance(latitude, longitude, stations[0].lat, stations[0].lon);
+  
+    stations.forEach((station, index) => {
+      const distance = haversineDistance(latitude, longitude, station.lat, station.lon);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestIndex = index;
+      }
+    });
+  
+    return nearestIndex;
+  };
+
+  const findNearestStationIndexToRight = (
+    currentLat: number,
+    currentLon: number,
+    stations: { name: string; lat: number; lon: number }[]
+  ): number => {
+    // Find the closest station based on geographical location first
+    let nearestIndex = 0;
+    let minDistance = Infinity;
+  
+    for (let i = 0; i < stations.length; i++) {
+      const distance = haversineDistance(currentLat, currentLon, stations[i].lat, stations[i].lon);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestIndex = i;
+      }
+    }
+  
+    // If the nearest station is the last one in the list, return it (no station to the right)
+    if (nearestIndex >= stations.length - 1) {
+      return nearestIndex;
+    }
+  
+    // Otherwise, return the next station in the array (side-by-side order)
+    return nearestIndex + 1;
+  };
+
+
+  // update nearest everytime gps is updated
+  useEffect(() => {
+    if (latitude !== 0 || longitude !== 0) {
+      // position yourself in between 2 stations first, then set it as the next station
+      const nearestNextStation = findNearestStationIndexToRight(latitude, longitude, stations)
+      if(currentStation == null || nextStation == -1){
+        setNextStation(nearestNextStation);
+        setCurrentStation(nearestNextStation - 1);
+
+      }
+
+      else{
+        // pag nakarating na,
+        if(haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) <= 0.03 && arrive==false){
+          console.log('ARRIVED');
+          setArrive(true);
+        
+        }
+        // pag nakaalis na ulet,
+        if(haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) >= 0.03 && arrive==true){
+          console.log('LEFT');
+          setNextStation(nearestNextStation);
+          setCurrentStation(nearestNextStation - 1);
+          setArrive(false);
+        }
+
+
+        // LOGS
+
+        console.log('Current station: ' + currentStation);
+        console.log('Next station: ' + nextStation);
+        console.log('Distance: ' + haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon));
+        console.log('Arrived: ' + arrive);
+      }
+
+    }
+    console.log("======================");
+  }, [latitude, longitude, stations]);
 
   return (
     <View style={styles.main}>

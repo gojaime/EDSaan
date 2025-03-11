@@ -102,7 +102,7 @@ export default function TabTwoScreen() {
               onPress={() => {
                 setDirection(direction.toString());
                 setDestinationIndex(newIndexParsed);
-                setNextStation(findNearestStationIndexToRight(latitude,longitude,stations));
+                // setNextStation(findNearestStationIndexToRight(latitude,longitude,stations));
                 router.replace({pathname: '/'});
                 }}>
               <Text style={{color: 'white', fontSize: 14, flex: 75, textAlign: 'center'}}>{'Set as Destination (' + direction + ')'}</Text><Ionicons name="send" size={20} color="white" style={{flex: 25}}/>

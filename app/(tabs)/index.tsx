@@ -67,7 +67,7 @@ export default function App() {
       <Toast />
       <View style={styles.header}>
         <Text style={styles.paragraph}>{destinationIndex==-1? 'Choose destination first,' : 'Next Bus Stop:'}</Text>
-        <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{destinationIndex==-1? 'Welcome to EDSaan' : stations[nextStation].name}</Text>
+        <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{destinationIndex==-1 || nextStation == -1? 'Welcome to EDSaan' : stations[nextStation].name}</Text>
         <Text style={{textAlign: 'center'}}>{latitude!=0? latitude + ' ' + longitude : 'Loading Location...'}</Text>
       </View>
       <View style={styles.mapContainer}>

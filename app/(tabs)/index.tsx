@@ -110,30 +110,93 @@ export default function App() {
     return nearestIndex + 1;
   };
 
+  const refreshVars = () => {
+    setCurrentStation(null);
+    setNextStation(-1);
+    setArrive(false);
+
+    const nearestNextStation = findNearestStationIndexToRight(latitude, longitude, stations)
+    if(currentStation == null || nextStation == -1){
+
+      setNextStation(nearestNextStation);
+      if (nextStation == stations.length - 1){
+        setCurrentStation(nearestNextStation);
+      }
+      else{
+        setCurrentStation(nearestNextStation - 1);
+      }
+
+      scrollToPosition(nextStation !== -1 
+        ? ((nextStation - 1) * 250) + (
+            ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+            haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
+              ? 0 
+              : (1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+              haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
+          ) 
+        : 0)
+    }
+
+    scrollToPosition(nextStation !== -1 
+      ? ((nextStation - 1) * 250) + (
+          ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+          haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
+            ? 0 
+            : (1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+            haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
+        ) 
+      : 0)
+
+  }
+
 
   // update nearest everytime gps is updated
   useEffect(() => {
     if (latitude !== 0 || longitude !== 0) {
       // position yourself in between 2 stations first, then set it as the next station
       const nearestNextStation = findNearestStationIndexToRight(latitude, longitude, stations)
+      // setNextStation(nearestNextStation);
+      // setCurrentStation(nearestNextStation - 1);
       if(currentStation == null || nextStation == -1){
+
         setNextStation(nearestNextStation);
-        setCurrentStation(nearestNextStation - 1);
+        if (nextStation == stations.length - 1){
+          setCurrentStation(nearestNextStation);
+        }
+        else{
+          setCurrentStation(nearestNextStation - 1);
+        }
 
       }
 
       else{
         // pag nakarating na,
-        if(haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) <= 0.03 && arrive==false){
+        if(haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) <= 0.1 && arrive==false){
           console.log('ARRIVED');
+          setNextStation(nearestNextStation);
+          if (nextStation == stations.length - 1){
+            setCurrentStation(nearestNextStation);
+          }
+          else{
+            setCurrentStation(nearestNextStation - 1);
+          }
           setArrive(true);
+          scrollToPosition(nextStation !== -1 
+            ? ((nextStation - 1) * 250) + (
+                ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+                haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
+                  ? 0 
+                  : (1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+                  haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
+              ) 
+            : 0)
         
         }
         // pag nakaalis na ulet,
-        if(haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) >= 0.03 && arrive==true){
+        if(haversineDistance(latitude,longitude, stations[currentStation].lat, stations[currentStation].lon) >= 0.1 && arrive==true){
           console.log('LEFT');
-          setNextStation(nearestNextStation);
-          setCurrentStation(nearestNextStation - 1);
+          // setNextStation(nearestNextStation);
+          // setCurrentStation(nearestNextStation - 1);
           setArrive(false);
         }
 
@@ -148,14 +211,36 @@ export default function App() {
 
     }
     console.log("======================");
-  }, [latitude, longitude, stations]);
+  }, [latitude, longitude, stations, nextStation]);
+
+
+  // destination changed, refresh
+  useEffect(() => {
+    refreshVars();
+  }, [destinationIndex]);
+  
+
+  let result;
+  if (nextStation == -1) {
+    result = 'Welcome to EDSaan';
+  }
+  else if (arrive == true) {
+    result = stations[nextStation].name;
+  } else {
+    if(haversineDistance(latitude,longitude,stations[currentStation!].lat,stations[currentStation!].lon) <= 0.1){
+      result = stations[currentStation!].name
+    }
+    else{
+      result = stations[nextStation].name
+    }
+  }
 
   return (
     <View style={styles.main}>
       <Toast />
       <View style={styles.header}>
-        <Text style={styles.paragraph}>{destinationIndex==-1? 'Choose destination first,' : 'Next Bus Stop:'}</Text>
-        <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{destinationIndex==-1 || nextStation == -1? 'Welcome to EDSaan' : stations[nextStation].name}</Text>
+        <Text style={styles.paragraph}>{nextStation==-1? '' : arrive==false? 'Next bus stop:': 'You are now at:' }</Text>
+        <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{nextStation == -1? 'Welcome to EDSaan': arrive==false? stations[nextStation].name : stations[currentStation!].name}</Text>
         <Text style={{textAlign: 'center'}}>{latitude!=0? latitude + ' ' + longitude : 'Loading Location...'}</Text>
       </View>
       <View style={styles.mapContainer}>
@@ -167,15 +252,25 @@ export default function App() {
             </View>
             <View style={{flexDirection: 'row', marginTop: 40}}>
             {stations.map((station, index) => (
-              index == 0? <View key={index}></View> : <Progress.Bar animated={false} progress={0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
+              index == 0? <View key={index}></View> : <Progress.Bar animated={false} progress={index==nextStation? 1 - (haversineDistance(latitude,longitude,stations[nextStation].lat, stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat,stations[nextStation-1].lon,stations[nextStation].lat, stations[nextStation].lon)) : nextStation > index? 1 : 0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
             <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} unfilledColor='gray'/>
             </View>
             
+
+            {/* nextStation != -1? ((nextStation - 1) * 250) +  ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250) : 0, */}
             <Image
               style={{
                 shadowColor: 'black',
                 position: 'absolute',
-                marginLeft: 0,
+                marginLeft: nextStation !== -1 
+                ? ((nextStation - 1) * 250) + (
+                    ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+                    haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
+                      ? 0 
+                      : (1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+                      haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
+                  ) 
+                : 0,
                 height: 40,
                 width: 80
               }}
@@ -184,7 +279,7 @@ export default function App() {
         </ScrollView>
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 10}}>
           <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
-          <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250))}}><FontAwesome6 name="location-crosshairs" size={16} color="black" /><Text style={{color: 'black', fontWeight: 'bold'}}>  Locate Self</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : refreshVars()}}><FontAwesome6 name="location-crosshairs" size={16} color="black" /><Text style={{color: 'black', fontWeight: 'bold'}}>  Locate Self</Text></TouchableOpacity>
           <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
         </View>
       </View>

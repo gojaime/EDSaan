@@ -36,45 +36,6 @@ const haversineDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * c; // Distance in kilometers
 };
 
-// Function to find the nearest station to the right
-const findNearestStationIndexToRight = (
-  currentLat: number,
-  currentLon: number,
-  stations: { name: string; lat: number; lon: number }[]
-): number => {
-  if (stations.length < 2) return 0; // Ensure there are enough stations
-
-  let firstNearestIndex = -1;
-  let secondNearestIndex = -1;
-  let minDistance1 = Infinity;
-  let minDistance2 = Infinity;
-
-  // Find the two nearest stations
-  for (let i = 0; i < stations.length; i++) {
-    const distance = haversineDistance(currentLat, currentLon, stations[i].lat, stations[i].lon);
-
-    if (distance < minDistance1) {
-      // Shift the first nearest to second nearest
-      minDistance2 = minDistance1;
-      secondNearestIndex = firstNearestIndex;
-      
-      // Update first nearest
-      minDistance1 = distance;
-      firstNearestIndex = i;
-    } else if (distance < minDistance2) {
-      // Update second nearest
-      minDistance2 = distance;
-      secondNearestIndex = i;
-    }
-  }
-
-  // Ensure valid indices
-  if (firstNearestIndex === -1 || secondNearestIndex === -1) return 0;
-
-  // Pick the station that appears later in the array (the one on the right)
-  return Math.max(firstNearestIndex, secondNearestIndex);
-};
-
 
 export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [destinationIndex, setDestinationIndex] = useState<number>(-1);
@@ -156,15 +117,6 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
     return () => clearInterval(interval);
   }, []);
-
-  // Effect to set the next station initially
-  useEffect(() => {
-    if (!hasSetNextStation && longitude !== 0 && latitude !== 0) {
-      const nearestIndex = findNearestStationIndexToRight(latitude, longitude, stations);
-      setNextStation(nearestIndex);
-      setHasSetNextStation(true);
-    }
-  }, [longitude, latitude, hasSetNextStation]);
 
   return (
     <GlobalContext.Provider

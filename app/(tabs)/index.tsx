@@ -44,44 +44,6 @@ export default function App() {
   
     return R * c; // Returns the distance in kilometers
   };
-
-  const findNearestStationIndexToRight = (
-    currentLat: number,
-    currentLon: number,
-    stations: { name: string; lat: number; lon: number }[]
-  ): number => {
-    if (stations.length < 2) return 0; // Ensure there are enough stations
-  
-    let firstNearestIndex = -1;
-    let secondNearestIndex = -1;
-    let minDistance1 = Infinity;
-    let minDistance2 = Infinity;
-  
-    // Find the two nearest stations
-    for (let i = 0; i < stations.length; i++) {
-      const distance = haversineDistance(currentLat, currentLon, stations[i].lat, stations[i].lon);
-  
-      if (distance < minDistance1) {
-        // Shift the first nearest to second nearest
-        minDistance2 = minDistance1;
-        secondNearestIndex = firstNearestIndex;
-        
-        // Update first nearest
-        minDistance1 = distance;
-        firstNearestIndex = i;
-      } else if (distance < minDistance2) {
-        // Update second nearest
-        minDistance2 = distance;
-        secondNearestIndex = i;
-      }
-    }
-  
-    // Ensure valid indices
-    if (firstNearestIndex === -1 || secondNearestIndex === -1) return 0;
-  
-    // Pick the station that appears later in the array (the one on the right)
-    return Math.max(firstNearestIndex, secondNearestIndex);
-  };
   
 
   const router = useRouter();
@@ -99,41 +61,6 @@ export default function App() {
         } = useGlobalState();
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
-  const [hasScrolled, setHasScrolled] = useState(false); // Track if initial scroll happened
-
-  useEffect(() => {
-    if (nextStation != -1 && hasScrolled == false) {
-      scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250));
-      setHasScrolled(true);
-    }
-    // Call any function you need to run once
-  }, [nextStation, latitude,longitude]);
-
-
-
- // Run when GPS is updated
-  useEffect(() => {
-    if (nextStation === -1 || longitude === 0 || latitude === 0) return; // Ensure valid values
-  
-    const thresholdDistance = 0.03; // 50 meters (converted from km)
-    
-    const currentNextStation = stations[nextStation]; // Get current next station
-  
-    if (!currentNextStation) return; // Safety check
-  
-    const distanceToNextStation = haversineDistance(
-      latitude, longitude,
-      currentNextStation.lat, currentNextStation.lon
-    );
-  
-    if (distanceToNextStation <= thresholdDistance) {
-      // Find the next nearest station to the right
-      // const newNextStation = findNearestStationIndexToRight(latitude, longitude, stations);
-      console.log('You are now at ' + stations[nextStation].name + ' next index: ' + nextStation);
-      setNextStation(nextStation + 1);
-      scrollToPosition(((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250))
-    }
-  }, [latitude, longitude, nextStation]);
 
   return (
     <View style={styles.main}>
@@ -152,7 +79,7 @@ export default function App() {
             </View>
             <View style={{flexDirection: 'row', marginTop: 40}}>
             {stations.map((station, index) => (
-              index == 0? <View key={index}></View> : <Progress.Bar animated={false} progress={index==nextStation? 1 - (haversineDistance(latitude,longitude,stations[nextStation].lat, stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat,stations[nextStation-1].lon,stations[nextStation].lat, stations[nextStation].lon)) : nextStation > index? 1 : 0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
+              index == 0? <View key={index}></View> : <Progress.Bar animated={false} progress={0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
             <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} unfilledColor='gray'/>
             </View>
             
@@ -160,7 +87,7 @@ export default function App() {
               style={{
                 shadowColor: 'black',
                 position: 'absolute',
-                marginLeft: nextStation != -1? ((nextStation - 1) * 250) + ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250) : 0,
+                marginLeft: 0,
                 height: 40,
                 width: 80
               }}

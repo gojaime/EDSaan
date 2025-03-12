@@ -125,7 +125,15 @@ export default function App() {
         setCurrentStation(nearestNextStation - 1);
       }
 
-      scrollToPosition(currentStation? 250 * currentStation! : currentStation!)
+      scrollToPosition(nextStation !== -1 
+        ? ((nextStation - 1) * 250) + (
+            ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+            haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
+              ? 0 
+              : ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+              haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) - 100
+          ) 
+        : 0)
     }
 
 
@@ -162,7 +170,15 @@ export default function App() {
             setCurrentStation(nearestNextStation - 1);
           }
           setArrive(true);
-          scrollToPosition(currentStation * 250);
+          scrollToPosition(nextStation !== -1 
+            ? ((nextStation - 1) * 250) + (
+                ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+                haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
+                  ? 0 
+                  : ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
+                  haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) - 100
+              ) 
+            : 0);
           
         
         }

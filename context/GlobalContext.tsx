@@ -16,9 +16,29 @@ interface GlobalState {
   nbstations: { name: string; lat: number; lon: number }[];
   currentStation: number | null; // ✅ Added this
   setCurrentStation: (index: number | null) => void; // ✅ Added setter
+  currentNearStation: number | null; // ✅ Added this
+  setCurrentNearStation: (index: number | null) => void; // ✅ Added setter
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
+
+const findNearestStation = (latitude: number, longitude: number, stations: { lat: number; lon: number }[]) => {
+  if (stations.length === 0) return null; // Return null if no stations exist
+
+  let nearestIndex = 0;
+  let minDistance = haversineDistance(latitude, longitude, stations[0].lat, stations[0].lon);
+
+  stations.forEach((station, index) => {
+    const distance = haversineDistance(latitude, longitude, station.lat, station.lon);
+    if (distance < minDistance) {
+      minDistance = distance;
+      nearestIndex = index;
+    }
+  });
+
+  return minDistance <= 0.1 ? nearestIndex : null; // Return index if within 0.1 km, else null
+};
+
 
 // Haversine formula to calculate distance between two coordinates
 const haversineDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
@@ -47,6 +67,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [hasSetNextStation, setHasSetNextStation] = useState<boolean>(false);
   const [currentStation, setCurrentStation] = useState<number | null>(null); // ✅ Added this
+  const [currentNearStation, setCurrentNearStation] = useState<number | null>(null); // ✅ Added this
 
   // Define stations (unchanged)
   const sbstations = [
@@ -149,6 +170,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         nbstations,
         currentStation, // ✅ Added this
         setCurrentStation, // ✅ Added setter
+        currentNearStation, // ✅ Added this
+        setCurrentNearStation, // ✅ Added setter
       }}
     >
       {children}

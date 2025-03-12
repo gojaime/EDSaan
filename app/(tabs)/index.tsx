@@ -62,13 +62,14 @@ export default function App() {
           longitude,
           sbstations,
           nbstations,
-          currentStation, setCurrentStation
+          currentStation, setCurrentStation,
+          currentNearStation, setCurrentNearStation
         } = useGlobalState();
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
 
   const findNearestStation = (latitude: number, longitude: number, stations: { lat: number; lon: number }[]) => {
-    // if (stations.length === 0) return null; // Return null if no stations exist
+    if (stations.length === 0) return null; // Return null if no stations exist
   
     let nearestIndex = 0;
     let minDistance = haversineDistance(latitude, longitude, stations[0].lat, stations[0].lon);
@@ -81,8 +82,9 @@ export default function App() {
       }
     });
   
-    return nearestIndex;
+    return minDistance <= 0.1 ? nearestIndex : null; // Return index if within 0.1 km, else null
   };
+  
 
   const findNearestStationIndexToRight = (
     currentLat: number,
@@ -142,6 +144,11 @@ export default function App() {
   // update nearest everytime gps is updated
   useEffect(() => {
     if (latitude !== 0 || longitude !== 0) {
+
+      // set currentNeareststation if meron
+      setCurrentNearStation(findNearestStation(latitude,longitude,stations)? findNearestStation(latitude,longitude,stations) : null);
+      
+
       // position yourself in between 2 stations first, then set it as the next station
       const nearestNextStation = findNearestStationIndexToRight(latitude, longitude, stations)
       // setNextStation(nearestNextStation);
@@ -201,7 +208,7 @@ export default function App() {
 
     }
     console.log("======================");
-  }, [latitude, longitude, stations, nextStation]);
+  }, [latitude, longitude, stations, nextStation, currentNearStation]);
 
 
   // destination changed, refresh
@@ -229,8 +236,8 @@ export default function App() {
     <View style={styles.main}>
       <Toast />
       <View style={styles.header}>
-        <Text style={styles.paragraph}>{nextStation==-1? '' : arrive==false? 'Next bus stop:': 'You are now at:' }</Text>
-        <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{nextStation == -1? 'Welcome to EDSaan': arrive==false? stations[nextStation].name : stations[currentStation!].name}</Text>
+        <Text style={styles.paragraph}>{currentNearStation? 'You are now at: ' : 'Next bus stop: ' }</Text>
+        <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{nextStation == -1? 'Welcome to EDSaan': currentNearStation? stations[currentNearStation].name : stations[nextStation].name }</Text>
         <Text style={{textAlign: 'center'}}>{arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : ''}</Text>
         <Text style={{textAlign: 'center'}}>{latitude!=0? '': 'Loading Location...'}</Text>
       </View>

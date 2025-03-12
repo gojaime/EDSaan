@@ -90,7 +90,7 @@ export default function TabTwoScreen() {
       <View style={{backgroundColor: 'white'}}>
         <ThemedText type="title" darkColor='dark'>{post}</ThemedText>
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10}}>
-          {nextIndex > newIndexParsed || longitude == 0 || latitude==0 || currentStation == stations.length - 1? <View></View> : <TouchableOpacity
+          {<TouchableOpacity
             style={{
               backgroundColor: '#0038A8',
               borderRadius: 10,

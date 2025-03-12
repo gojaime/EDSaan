@@ -111,12 +111,11 @@ export default function App() {
   };
 
   const refreshVars = () => {
-    setCurrentStation(null);
-    setNextStation(-1);
-    setArrive(false);
+    // setCurrentStation(null);
+    // setNextStation(-1);
+    // setArrive(false);
 
     const nearestNextStation = findNearestStationIndexToRight(latitude, longitude, stations)
-    if(currentStation == null || nextStation == -1){
 
       setNextStation(nearestNextStation);
       if (nextStation == stations.length - 1){
@@ -126,28 +125,10 @@ export default function App() {
         setCurrentStation(nearestNextStation - 1);
       }
 
-      scrollToPosition(nextStation !== -1 
-        ? ((nextStation - 1) * 250) + (
-            ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
-            haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
-              ? 0 
-              : (1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
-              haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
-          ) 
-        : 0)
+      scrollToPosition(currentStation? 250 * currentStation! : currentStation!)
     }
 
-    scrollToPosition(nextStation !== -1 
-      ? ((nextStation - 1) * 250) + (
-          ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
-          haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
-            ? 0 
-            : (1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
-            haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
-        ) 
-      : 0)
 
-  }
 
 
   // update nearest everytime gps is updated
@@ -181,15 +162,7 @@ export default function App() {
             setCurrentStation(nearestNextStation - 1);
           }
           setArrive(true);
-          scrollToPosition(nextStation !== -1 
-            ? ((nextStation - 1) * 250) + (
-                ((1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
-                haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) < 1 
-                  ? 0 
-                  : (1 - (haversineDistance(latitude, longitude, stations[nextStation].lat, stations[nextStation].lon) / 
-                  haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
-              ) 
-            : 0);
+          scrollToPosition(currentStation * 250);
           
         
         }

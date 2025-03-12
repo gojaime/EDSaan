@@ -237,8 +237,8 @@ export default function App() {
       <Toast />
       <View style={styles.header}>
         <Text style={styles.paragraph}>{currentNearStation? 'You are now at: ' : 'Next bus stop: ' }</Text>
-        <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{nextStation == -1? 'Welcome to EDSaan': currentNearStation? stations[currentNearStation].name : stations[nextStation].name }</Text>
-        <Text style={{textAlign: 'center'}}>{arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : ''}</Text>
+        <Text style={{fontSize: 30, color: 'black', textAlign: 'center', fontWeight: 'black'}}>{nextStation == -1? 'Welcome to EDSaan': currentNearStation? stations[currentNearStation].name : stations[nextStation].name }</Text>
+        <Text style={{textAlign: 'center', fontSize: 15, backgroundColor: '#f0f0f0', padding: 5, borderRadius: 10, margin: 4}}>{arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : nextStation != -1? haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon).toFixed(2) + ' KM left' : ''}</Text>
         <Text style={{textAlign: 'center'}}>{latitude!=0? '': 'Loading Location...'}</Text>
       </View>
       <View style={styles.mapContainer}>
@@ -275,10 +275,10 @@ export default function App() {
               source={require('@/assets/images/bus.png')}/>
           </ImageBackground>
         </ScrollView>
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 10}}>
-          <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
-          <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : refreshVars()}}><FontAwesome6 name="location-crosshairs" size={16} color="black" /><Text style={{color: 'black', fontWeight: 'bold'}}>  Refresh Location</Text></TouchableOpacity>
-          <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 5}}>
+          <View style={styles.directionIndicator}><Text style={{color: 'black', fontSize: 13}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
+          <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : refreshVars()}}><FontAwesome6 name="location-crosshairs" size={13} color="black" /><Text style={{color: 'black', fontWeight: 'bold', fontSize: 13}}> Refresh Location</Text></TouchableOpacity>
+          <View style={styles.directionIndicator}><Text style={{color: 'black', fontSize: 13}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
         </View>
       </View>
       <View style={styles.footer}>

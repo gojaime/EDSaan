@@ -254,7 +254,7 @@ export default function App() {
         </ScrollView>
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 10}}>
           <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
-          <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : refreshVars()}}><FontAwesome6 name="location-crosshairs" size={16} color="black" /><Text style={{color: 'black', fontWeight: 'bold'}}>  Locate Self</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : refreshVars()}}><FontAwesome6 name="location-crosshairs" size={16} color="black" /><Text style={{color: 'black', fontWeight: 'bold'}}>  Refresh Location</Text></TouchableOpacity>
           <View style={styles.directionIndicator}><Text style={{color: 'black'}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
         </View>
       </View>

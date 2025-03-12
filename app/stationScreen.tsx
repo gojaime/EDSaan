@@ -69,9 +69,11 @@ export default function TabTwoScreen() {
   var nextIndex;
   if (direction=='Southbound'){
     nextIndex = nextSB;
+    console.log("sb");
   }
   else{
     nextIndex = nextNB;
+    console.log("nb");
   }
 
   return (

@@ -4,6 +4,7 @@ import { Link, useRouter } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import Entypo from '@expo/vector-icons/Entypo';
 import { useGlobalState } from "../context/GlobalContext";
 
 type StationSquareProps = {
@@ -26,10 +27,33 @@ const StationSquare: React.FC<StationSquareProps> = ({ text, direction, index })
         router.push({ pathname: "/explore", params: { post: ""} });
       }
     }}>
-      <View style={styles.box}>
-        <Text style={{color: 'white', textAlign: 'center', fontWeight: 'bold'}}><FontAwesome name="map-pin" size={13} color="red" />{' ' + text}</Text>
+      <View style={{
+            backgroundColor: index == destinationIndex?  '#cf0921' : '#0038A8',
+            width: 125,
+            padding: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 125,
+            borderRadius: 10,
+            zIndex: 1,
+            shadowColor: 'black',
+            elevation: 50,
+            flexDirection: 'row'
+      }}>
+        <Text style={{color: 'white', textAlign: 'center', fontWeight: 'bold'}}>{index == destinationIndex? <Entypo name="flag" size={13} color="white" /> : <FontAwesome name="map-pin" size={13} color="red" />}{' ' + text}</Text>
       </View>
-      <View style={styles.triangleCorner}></View>
+      <View style={{
+            width: 0,
+            height: 0,
+            backgroundColor: "transparent",
+            borderStyle: "solid",
+            borderRightWidth: 30,
+            borderTopWidth: 30,
+            borderRightColor: "transparent",
+            borderTopColor: index == destinationIndex?  '#cf0921' : '#0038A8',
+            marginTop: -10,
+            zIndex: 0
+      }}></View>
     </TouchableOpacity>
   );
 };

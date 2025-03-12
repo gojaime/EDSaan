@@ -215,7 +215,7 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.paragraph}>{nextStation==-1? '' : arrive==false? 'Next bus stop:': 'You are now at:' }</Text>
         <Text style={{fontSize: 30, color: 'black', textAlign: 'center'}}>{nextStation == -1? 'Welcome to EDSaan': arrive==false? stations[nextStation].name : stations[currentStation!].name}</Text>
-        <Text style={{textAlign: 'center'}}>{arrive==true? destinationIndex==currentStation? 'This is your stop!' : 'Next station: ' + stations[nextStation].name : ''}</Text>
+        <Text style={{textAlign: 'center'}}>{arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : ''}</Text>
         <Text style={{textAlign: 'center'}}>{latitude!=0? '': 'Loading Location...'}</Text>
       </View>
       <View style={styles.mapContainer}>

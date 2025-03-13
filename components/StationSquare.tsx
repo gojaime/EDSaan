@@ -28,7 +28,7 @@ const StationSquare: React.FC<StationSquareProps> = ({ text, direction, index })
       }
     }}>
       <View style={{
-            backgroundColor: index == destinationIndex?  'white' : '#0038A8',
+            backgroundColor: index == destinationIndex?  '#cf0921' : '#0038A8',
             width: 125,
             padding: 10,
             alignItems: 'center',
@@ -40,7 +40,7 @@ const StationSquare: React.FC<StationSquareProps> = ({ text, direction, index })
             elevation: 50,
             flexDirection: 'row'
       }}>
-        <Text style={{color: index == destinationIndex?  'black' : 'white', textAlign: 'center', fontWeight: 'bold'}}>{index == destinationIndex? <Entypo name="flag" size={13} color="red" /> : <FontAwesome name="map-pin" size={13} color="red" />}{' ' + text}</Text>
+        <Text style={{color: index == destinationIndex?  'white' : 'white', textAlign: 'center', fontWeight: 'bold'}}>{index == destinationIndex? <Entypo name="flag" size={13} color="white" /> : <FontAwesome name="map-pin" size={13} color="red" />}{' ' + text}</Text>
       </View>
       <View style={{
             width: 0,
@@ -50,7 +50,7 @@ const StationSquare: React.FC<StationSquareProps> = ({ text, direction, index })
             borderRightWidth: 30,
             borderTopWidth: 30,
             borderRightColor: "transparent",
-            borderTopColor: index == destinationIndex?  'white' : '#0038A8',
+            borderTopColor: index == destinationIndex?  '#cf0921' : '#0038A8',
             marginTop: -10,
             zIndex: 0
       }}></View>

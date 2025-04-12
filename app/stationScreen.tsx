@@ -76,19 +76,45 @@ export default function TabTwoScreen() {
     console.log("nb");
   }
 
+  const stationImages: Record<string, any> = {
+    monumento: require('@/assets/images/stations/monumento.jpg'),
+    bagongbarrio: require('@/assets/images/stations/bagongbarrio.jpg'),
+    balintawak: require('@/assets/images/stations/balintawak.jpg'),
+    kainginroad: require('@/assets/images/stations/kainginroad.jpg'),
+    roosevelt: require('@/assets/images/stations/roosevelt.jpg'),
+    smnorth: require('@/assets/images/stations/smnorth.jpg'),
+    northave: require('@/assets/images/stations/northave.jpg'),
+    quezonave: require('@/assets/images/stations/quezonave.jpg'),
+    qmart: require('@/assets/images/stations/qmart.jpg'),
+    cubao: require('@/assets/images/stations/cubao.jpg'),
+    santolan: require('@/assets/images/stations/santolan.jpg'),
+    ortigas: require('@/assets/images/stations/ortigas.jpg'),
+    guadalupe: require('@/assets/images/stations/guadalupe.jpg'),
+    buendia: require('@/assets/images/stations/buendia.jpg'),
+    ayala: require('@/assets/images/stations/ayala.jpg'),
+    tramo: require('@/assets/images/stations/tramo.jpg'),
+    taft: require('@/assets/images/stations/taft.jpg'),
+    roxasboulevard: require('@/assets/images/stations/roxasboulevard.jpg'),
+    moa: require('@/assets/images/stations/moa.jpg'),
+    dfa: require('@/assets/images/stations/dfa.jpg'),
+    cityofdreams: require('@/assets/images/stations/cityofdreams.jpg'),
+    pitx: require('@/assets/images/stations/pitx.jpg'),
+  };
+  
+
   const station = stationsDesc.find(station => station.id === stations[newIndexParsed].id);
+  const stationimage = stationImages[station!.id];
 
 
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#D0D0D0' }}
       headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
+        <Image
+        source={stationimage}
+        style={styles.headerImage}
+        resizeMode='stretch'
+      />
       }>
       <View style={{backgroundColor: 'white'}}>
         <ThemedText type="title" darkColor='dark'>{stations[newIndexParsed].name}</ThemedText>
@@ -115,23 +141,23 @@ export default function TabTwoScreen() {
           <TouchableOpacity style={{backgroundColor: '#fcd20f', borderRadius: 10, padding: 5, flex: 25, justifyContent: 'center', alignItems: 'center'}}><Entypo name="map" size={24} color="black" /></TouchableOpacity>
         </View>
 
-      {station?         <View style={{margin: 10}}>
-        <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 10 }}>Description:</Text>
+      {station?         <View>
+        <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 10 }}>Description</Text>
       {station!.intro.map((line, index) => (
         <Text key={index} style={{ marginLeft: 10, marginTop: 2 }}>{`\u2022 ${line}`}</Text>
       ))}
 
-      <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 10 }}>Dining Options Nearby:</Text>
+      <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 10 }}>Dining Options Nearby</Text>
       {station!.food.map((item, index) => (
         <Text key={index} style={{ marginLeft: 10, marginTop: 2 }}>{`\u2022 ${item}`}</Text>
       ))}
 
-      <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 10 }}>Places to Visit:</Text>
+      <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 10 }}>Places to Visit</Text>
       {station!.places.map((place, index) => (
         <Text key={index} style={{ marginLeft: 10, marginTop: 2 }}>{`\u2022 ${place}`}</Text>
       ))}
 
-      <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 10 }}>Accommodation:</Text>
+      <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 10 }}>Accommodation</Text>
       {station!.accommodation.map((acc, index) => (
         <Text key={index} style={{ marginLeft: 10, marginTop: 2 }}>{`\u2022 ${acc}`}</Text>
       ))}
@@ -144,9 +170,9 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   headerImage: {
     color: '#808080',
-    bottom: -90,
-    left: -35,
     position: 'absolute',
+    width: '100%',
+    height: '100%'
   },
   titleContainer: {
     flexDirection: 'row',

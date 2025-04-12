@@ -89,6 +89,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     { name: 'Balintawak', lat: 14.65755519840395, lon: 121.00479165527882, id: 'balintawak' },
     { name: 'Kaingin Road', lat: 14.657721472300674, lon: 121.01152980733613, id: 'kainginroad' },
     { name: 'LRT 1- Roosevelt Station', lat: 14.65778465621674, lon: 121.0196870764625, id: 'roosevelt' },
+    { name: 'SM North EDSA', lat: 14.655957259707604, lon: 121.02854235896207, id: 'smnorth' },
     { name: 'MRT 3 North Avenue', lat: 14.651448496391131, lon: 121.03285691836994, id: 'northave' },
     { name: 'MRT 3 Quezon Avenue', lat: 14.641667514884944, lon: 121.03926668810226, id: 'quezonave' },
     { name: 'Nepa Q-Mart', lat: 14.629176468642413, lon: 121.04670279166625, id: 'qmart' },
@@ -122,6 +123,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     { name: 'Nepa Q-Mart', lat: 14.629176468642413, lon: 121.04670279166625, id: 'qmart' },
     { name: 'MRT 3 Quezon Avenue Station', lat: 14.641667514884944, lon: 121.03926668810226, id: 'quezonave' },
     { name: 'MRT 3 North Avenue', lat: 14.651448496391131, lon: 121.03285691836994, id: 'northave' },
+    { name: 'SM North EDSA', lat: 14.655957259707604, lon: 121.02854235896207, id: 'smnorth' },
     { name: 'LRT-1 Roosevelt Station', lat: 14.65778465621674, lon: 121.0196870764625, id: 'roosevelt' },
     { name: 'Kaingin Road', lat: 14.657721472300674, lon: 121.01152980733613, id: 'kainginroad' },
     { name: 'Balintawak', lat: 14.65755519840395, lon: 121.00479165527882, id: 'balintawak' },
@@ -642,6 +644,31 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         'Nobu Hotel (Luxury) - Sophisticated, high-end hotel experience.',
         'Hyatt City of Dreams Manila (Luxury) - Modern hotel with a casino and elegant amenities.',
         'Budget Hotels in Pasay and Parañaque (Budget-Friendly) - Affordable options in nearby areas.'
+      ]
+    },
+    {
+      id: 'smnorth',
+      intro: [
+        'The EDSA Carousel SM North EDSA Station is situated along EDSA in Quezon City, directly connected to SM North EDSA via a newly opened concourse.',
+        'This station offers a convenient and accessible transit point for commuters in the northern part of Metro Manila.'
+      ],
+      food: [
+        'Vikings (Buffet) - Extensive buffet offering international cuisine.',
+        'Ramen Nagi (Casual Dining) - Popular spot for authentic Japanese ramen.',
+        'Tim Ho Wan (Casual Dining) - Michelin-starred dim sum restaurant.',
+        'Jollibee (Fast Food) - Iconic Filipino fast-food chain known for its Chickenjoy.',
+        'Krispy Kreme (Cafe) - Donuts and coffee shop located near the concourse entrance.'
+      ],
+      places: [
+        'SM North EDSA - One of the largest shopping malls in the Philippines, offering a variety of retail, dining, and entertainment options.',
+        'Trinoma Mall - A nearby upscale shopping center with a range of stores and restaurants.',
+        'Quezon Memorial Circle - A national park and shrine dedicated to former President Manuel L. Quezon.',
+        'Ninoy Aquino Parks and Wildlife Center - A zoological and botanical garden ideal for family outings.'
+      ],
+      accommodation: [
+        'Seda Vertis North (Luxury) - Modern hotel offering upscale amenities and services.',
+        'Red Planet Quezon City (Budget-Friendly) - Affordable hotel with essential amenities.',
+        'Go Hotels North EDSA (Budget-Friendly) - Convenient lodging option for travelers on a budget.'
       ]
     }
     

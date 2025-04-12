@@ -8,6 +8,7 @@ import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -47,8 +48,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index_backup"
         options={{
-          title: 'Alarm Settings',
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="bell" size={28} color={color} />,
+          title: 'Options',
+          tabBarIcon: ({ color }) => <Ionicons name="options" size={28} color={color} />,
         }}
       />
     </Tabs>

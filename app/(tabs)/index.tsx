@@ -275,14 +275,14 @@ export default function App() {
               source={require('@/assets/images/bus.png')}/>
           </ImageBackground>
         </ScrollView>
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 5}}>
-          <View style={styles.directionIndicator}><Text style={{color: 'black', fontSize: 13}}>{direction=='Southbound'? 'Southbound' : 'Northbound'}</Text></View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 0}}>
+          
           <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : refreshVars()}}><FontAwesome6 name="location-crosshairs" size={13} color="black" /><Text style={{color: 'black', fontWeight: 'bold', fontSize: 13}}> Refresh Location</Text></TouchableOpacity>
-          <View style={styles.directionIndicator}><Text style={{color: 'black', fontSize: 13}}>{direction=='Southbound'? 'To PITX ▶' : 'To Monumento ▶'}</Text></View>
+          <View style={styles.directionIndicator}><Text style={{color: 'black', fontSize: 13}}>{direction=='Southbound'? 'To PITX (Southbound) ▶' : 'To Monumento (Northbound) ▶'}</Text></View>
         </View>
       </View>
       <View style={styles.footer}>
-        <View style={{flex: 80}}>
+        <View style={{flex: 80, margin: 10}}>
           <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>
           <MaterialCommunityIcons name="bell" size={20} color="black" />
             <Text style={{color: 'black', fontSize: 13}}>Destination:</Text>

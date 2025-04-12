@@ -8,6 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { setParams } from 'expo-router/build/global-state/routing';
 import { useGlobalState } from "../context/GlobalContext";
+import openMap from 'react-native-open-maps';
 
 export default function TabTwoScreen() {
   const { post, newIndex, direction } = useLocalSearchParams();
@@ -138,7 +139,12 @@ export default function TabTwoScreen() {
                 }}>
               <Text style={{color: 'white', fontSize: 14, flex: 75, textAlign: 'center'}}>{'Set as Destination (' + direction + ')'}</Text><Ionicons name="send" size={20} color="white" style={{flex: 25}}/>
             </TouchableOpacity>}
-          <TouchableOpacity style={{backgroundColor: '#fcd20f', borderRadius: 10, padding: 5, flex: 25, justifyContent: 'center', alignItems: 'center'}}><Entypo name="map" size={24} color="black" /></TouchableOpacity>
+          <TouchableOpacity
+              onPress={() => {
+                openMap({ latitude: stations[newIndexParsed].lat, longitude: stations[newIndexParsed].lon, zoom: 20});
+
+                }}
+          style={{backgroundColor: '#fcd20f', borderRadius: 10, padding: 5, flex: 25, justifyContent: 'center', alignItems: 'center'}}><Entypo name="map" size={24} color="black" /></TouchableOpacity>
         </View>
 
       {station?         <View>

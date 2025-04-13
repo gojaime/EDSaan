@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "EDSaan",
-    "slug": "EDSaan",
+    "name": "EDSAan",
+    "slug": "EDSAan",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/EDSAan.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,11 +13,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/EDSAan.png",
         "backgroundColor": "#ffffff",
         "permissions": ["android.permission.ACCESS_FINE_LOCATION","android.permission.ACCESS_COARSE_LOCATION"]
       },
-      "package": "com.dyurj.EDSaan"
+      "package": "com.dyurj.EDSAan"
     },
     "web": {
       "bundler": "metro",
@@ -29,7 +29,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/EDSAan-adaptive.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

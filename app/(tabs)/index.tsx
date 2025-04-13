@@ -234,8 +234,8 @@ export default function App() {
 
   return (
     <View style={styles.main}>
-      <Toast />
       <View style={styles.header}>
+      
         <Text style={styles.paragraph}>{currentNearStation? 'You are now at: ' : 'Next bus stop: ' }</Text>
         <Text style={{fontSize: 30, color: 'black', textAlign: 'center', fontWeight: 'black'}}>{nextStation == -1? 'Welcome to EDSaan': currentNearStation? stations[currentNearStation].name : stations[nextStation].name }</Text>
         <Text style={{textAlign: 'center', fontSize: 15, backgroundColor: '#f0f0f0', padding: 5, borderRadius: 10, margin: 4}}>{arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : nextStation != -1? haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon).toFixed(2) + ' KM left' : ''}</Text>
@@ -280,6 +280,7 @@ export default function App() {
           <TouchableOpacity style={styles.directionIndicator} onPress={() => {nextStation == -1? null : refreshVars()}}><FontAwesome6 name="location-crosshairs" size={13} color="black" /><Text style={{color: 'black', fontWeight: 'bold', fontSize: 13}}> Refresh Location</Text></TouchableOpacity>
           <View style={styles.directionIndicator}><Text style={{color: 'black', fontSize: 13}}>{direction=='Southbound'? 'To PITX (Southbound) ▶' : 'To Monumento (Northbound) ▶'}</Text></View>
         </View>
+        
       </View>
       <View style={styles.footer}>
         <View style={{flex: 80, margin: 10}}>
@@ -293,7 +294,6 @@ export default function App() {
           <Text style={{color: 'white', fontWeight: 'bold', textAlign: 'center'}}>{'⇄ Change Route'}</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }

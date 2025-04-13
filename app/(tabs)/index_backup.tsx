@@ -1,19 +1,21 @@
-import { Image, StyleSheet, Platform, View, Text, SafeAreaView,TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, View, Text, SafeAreaView,TouchableOpacity } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function HomeScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-      <View style={{flex: 30, justifyContent: 'center', marginTop: 20}}>
-        <Text style={{textAlign: 'center', fontSize: 40}}>EDSaan</Text>
-        <Text style={{textAlign: 'center', fontSize: 14}}>Created by George O. Jaime III</Text>
+      <View style={{flex: 40, justifyContent: 'center', marginTop: 20, alignItems: 'center'}}>
+        <Image source={require('@/assets/images/EDSAan-cropped.png')} style={{width: 200, height: 100}} resizeMode='contain'></Image>
+        <Text style={{textAlign: 'center', fontSize: 14}}></Text>
       </View>
-      <View style={{flex: 50, justifyContent: 'flex-end'}}>
+      <View style={{flex: 30, alignItems: 'center', justifyContent: 'center'}}>
+        <Text style={{fontSize: 16, fontWeight: 'bold'}}>Created by George O. Jaime III</Text>
+        <Text>In fulfillment of requirements for CMSC 190</Text>
+        <Text>University of the Philippines Los Baños</Text>
+      </View>
+      <View style={{flex: 30, justifyContent: 'flex-end'}}>
         <TouchableOpacity style={styles.item}>
               <MaterialCommunityIcons name="vibrate" size={24} color="black" />
               <Text style={{marginLeft: 10}}>Vibrate</Text>
@@ -21,6 +23,10 @@ export default function HomeScreen() {
         <TouchableOpacity style={styles.item}>
               <MaterialCommunityIcons name="bell-outline" size={24} color="black" />
               <Text style={{marginLeft: 10}}>Ring</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.item}>
+              <MaterialIcons name="feedback" size={24} color="black" />
+              <Text style={{marginLeft: 10}}>Give your feedback!</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

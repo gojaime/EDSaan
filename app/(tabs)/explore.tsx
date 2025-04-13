@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, useWindowDimensions, FlatList, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, useWindowDimensions, FlatList, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -88,9 +88,19 @@ const MyTabView = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-      <View style={{flex: 25, justifyContent: 'center'}}>
-        <Text style={{textAlign: 'center', fontSize: 23}}>Choose your direction and destination:</Text>
+      <View style={{flex: 25, justifyContent: 'center', alignItems: 'center'}}>
+        <Image source={require('@/assets/images/EDSAan-cropped.png')} style={{width: 100, height: 50, margin: 20}} resizeMode='contain'></Image>
+        <Text style={{textAlign: 'center', fontSize: 18}}>Choose your direction and destination:</Text>
       </View>
+      <View style={{flex: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{backgroundColor: 'white', flex: 50, justifyContent: 'flex-end', alignItems: 'flex-start'}}>
+          <Text style={{backgroundColor: '#f0f0f0', borderTopRightRadius: 10, borderBottomRightRadius: 10, padding: 10}}>{'◀◀ '}To Monumento</Text>
+        </View>
+        <View style= {{backgroundColor: 'white', flex: 50, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <Text style={{backgroundColor: '#f0f0f0', borderTopLeftRadius: 10, borderBottomLeftRadius: 10, padding: 10}}>To PITX{' ▶▶'}</Text>
+        </View>
+        
+        </View>
       <TabView
         style={{flex: 75}}
         navigationState={{ index, routes }}
@@ -100,7 +110,7 @@ const MyTabView = () => {
         renderTabBar={props => (
           <TabBar
             {...props}
-            style={{ backgroundColor: '#ffffff' }} // White tab bar background
+            style={{ backgroundColor: '#ffffff', justifyContent: 'center' }} // White tab bar background
             activeColor="#000000" // Black text for active tab
             inactiveColor="#666666" // Gray text for inactive tabs
             indicatorStyle={{ backgroundColor: '#0035AA', height: 3 }} // Blue underline (active tab)

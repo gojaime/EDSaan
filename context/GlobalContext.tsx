@@ -25,6 +25,10 @@ interface GlobalState {
     places: string[];
     accommodation: string[];
   }[]; // ✅ Added this
+  vibrate: boolean;
+  setVibrate: (value: boolean) => void;
+  ring: boolean;
+  setRing: (value: boolean) => void;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -75,6 +79,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [hasSetNextStation, setHasSetNextStation] = useState<boolean>(false);
   const [currentStation, setCurrentStation] = useState<number | null>(null); // ✅ Added this
   const [currentNearStation, setCurrentNearStation] = useState<number | null>(null); // ✅ Added this
+  const [vibrate, setVibrate] = useState<boolean>(true); // default true or false as needed
+  const [ring, setRing] = useState<boolean>(true);   
 
   // Define stations (unchanged)
   const sbstations = [
@@ -752,6 +758,10 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         currentNearStation, // ✅ Added this
         setCurrentNearStation, // ✅ Added setter,
         stationsDesc, // ✅ Added this
+        vibrate,
+        setVibrate,
+        ring,
+        setRing
       }}
     >
       {children}

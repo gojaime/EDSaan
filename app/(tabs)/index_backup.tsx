@@ -2,8 +2,15 @@ import { Image, StyleSheet, View, Text, SafeAreaView,TouchableOpacity, Linking }
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useGlobalState } from "../../context/GlobalContext";
 
 export default function HomeScreen() {
+
+    const { ring,
+            setRing,
+            vibrate,
+            setVibrate
+          } = useGlobalState();
 
   const handlePress = () => {
     const url = 'https://docs.google.com/forms/d/e/1FAIpQLSchkB1glFfvVt4609WCbUgx5MV-KUfLPy4SrPLyVoNbNsJAeQ/viewform?usp=dialog';
@@ -24,13 +31,20 @@ export default function HomeScreen() {
         <Text>University of the Philippines Los Baños</Text>
       </View>
       <View style={{flex: 30, justifyContent: 'flex-end'}}>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity style={styles.item}
+          onPress={() => {
+              vibrate == true? setVibrate(false) : setVibrate(true)
+            }}>
               <MaterialCommunityIcons name="vibrate" size={24} color="black" />
-              <Text style={{marginLeft: 10}}>Vibrate: {'On'}</Text>
+              <Text style={{marginLeft: 10}}>Vibrate: {vibrate == true? 'On': 'Off'}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity style={styles.item}
+          onPress={() => {
+            ring == true? setRing(false) : setRing(true)
+          }}
+        >
               <MaterialCommunityIcons name="bell-outline" size={24} color="black" />
-              <Text style={{marginLeft: 10}}>Ring: {'On'}</Text>
+              <Text style={{marginLeft: 10}}>Ring: {ring == true? 'On': 'Off'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.item} onPress={handlePress}>
               <MaterialIcons name="feedback" size={24} color="black" />

@@ -18,15 +18,15 @@ export default function HomeScreen() {
       <View style={{flex: 30, justifyContent: 'flex-end'}}>
         <TouchableOpacity style={styles.item}>
               <MaterialCommunityIcons name="vibrate" size={24} color="black" />
-              <Text style={{marginLeft: 10}}>Vibrate</Text>
+              <Text style={{marginLeft: 10}}>Vibrate: {'On'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.item}>
               <MaterialCommunityIcons name="bell-outline" size={24} color="black" />
-              <Text style={{marginLeft: 10}}>Ring</Text>
+              <Text style={{marginLeft: 10}}>Ring: {'On'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.item}>
               <MaterialIcons name="feedback" size={24} color="black" />
-              <Text style={{marginLeft: 10}}>Give your feedback!</Text>
+              <Text style={{marginLeft: 10}}>Give your feedback! {' (help my research)'}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

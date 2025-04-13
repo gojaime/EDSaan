@@ -9,6 +9,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { setParams } from 'expo-router/build/global-state/routing';
 import { useGlobalState } from "../context/GlobalContext";
 import openMap from 'react-native-open-maps';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabTwoScreen() {
   const { post, newIndex, direction } = useLocalSearchParams();
@@ -100,6 +101,7 @@ export default function TabTwoScreen() {
     dfa: require('@/assets/images/stations/dfa.jpg'),
     cityofdreams: require('@/assets/images/stations/cityofdreams.jpg'),
     pitx: require('@/assets/images/stations/pitx.jpg'),
+    philam: require('@/assets/images/stations/philam.jpg')
   };
   
 
@@ -137,14 +139,17 @@ export default function TabTwoScreen() {
                 // setNextStation(findNearestStationIndexToRight(latitude,longitude,stations));
                 router.replace({pathname: '/'});
                 }}>
-              <Text style={{color: 'white', fontSize: 14, flex: 75, textAlign: 'center'}}>{'Set as Destination (' + direction + ')'}</Text><Ionicons name="send" size={20} color="white" style={{flex: 25}}/>
+              <Text style={{color: 'white', fontSize: 14, textAlign: 'center'}}>{'Set as Destination (' + direction + ')'}</Text>
+              <MaterialCommunityIcons name="map-marker-radius" size={24} color="white" />
             </TouchableOpacity>}
           <TouchableOpacity
               onPress={() => {
                 openMap({ latitude: stations[newIndexParsed].lat, longitude: stations[newIndexParsed].lon, zoom: 20});
 
                 }}
-          style={{backgroundColor: '#fcd20f', borderRadius: 10, padding: 5, flex: 25, justifyContent: 'center', alignItems: 'center'}}><Entypo name="map" size={24} color="black" /></TouchableOpacity>
+          style={{backgroundColor: '#fcd20f', borderRadius: 10, padding: 5, flex: 50, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
+            <Text style={{color: 'black', fontSize: 14, textAlign: 'center'}}>{'Map'}</Text>
+            <MaterialCommunityIcons name="map-search" size={24} color="black" /></TouchableOpacity>
         </View>
 
       {station?         <View>

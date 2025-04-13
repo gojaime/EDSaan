@@ -91,6 +91,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     { name: 'LRT 1- Roosevelt Station', lat: 14.65778465621674, lon: 121.0196870764625, id: 'roosevelt' },
     { name: 'SM North EDSA', lat: 14.655957259707604, lon: 121.02854235896207, id: 'smnorth' },
     { name: 'MRT 3 North Avenue', lat: 14.651448496391131, lon: 121.03285691836994, id: 'northave' },
+    { name: 'Philam QC', lat: 14.647751137163727, lon: 121.03519650998638, id: 'philam' },
     { name: 'MRT 3 Quezon Avenue', lat: 14.641667514884944, lon: 121.03926668810226, id: 'quezonave' },
     { name: 'Nepa Q-Mart', lat: 14.629176468642413, lon: 121.04670279166625, id: 'qmart' },
     { name: 'Main Ave (Cubao)', lat: 14.614308409451436, lon: 121.05352753530148, id: 'cubao' },
@@ -122,6 +123,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     { name: 'Main Ave (Cubao)', lat: 14.614308409451436, lon: 121.05352753530148, id: 'cubao' },
     { name: 'Nepa Q-Mart', lat: 14.629176468642413, lon: 121.04670279166625, id: 'qmart' },
     { name: 'MRT 3 Quezon Avenue Station', lat: 14.641667514884944, lon: 121.03926668810226, id: 'quezonave' },
+    { name: 'Philam QC', lat: 14.647751137163727, lon: 121.03519650998638, id: 'philam' },
     { name: 'MRT 3 North Avenue', lat: 14.651448496391131, lon: 121.03285691836994, id: 'northave' },
     { name: 'SM North EDSA', lat: 14.655957259707604, lon: 121.02854235896207, id: 'smnorth' },
     { name: 'LRT-1 Roosevelt Station', lat: 14.65778465621674, lon: 121.0196870764625, id: 'roosevelt' },
@@ -670,7 +672,35 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         'Red Planet Quezon City (Budget-Friendly) - Affordable hotel with essential amenities.',
         'Go Hotels North EDSA (Budget-Friendly) - Convenient lodging option for travelers on a budget.'
       ]
+    },
+    {
+      id: 'philam',
+      intro: [
+        'The EDSA Carousel Philam Station, inaugurated on July 15, 2024, is located in Quezon City near North Avenue. It features accessibility enhancements such as elevators or manlifters to assist senior citizens, persons with disabilities (PWDs), and pregnant passengers.'
+      ],
+      food: [
+        'Trinoma Food Court (Casual Dining) - Offers a variety of local and international cuisines.',
+        'SM North EDSA Food Court (Casual Dining) - Diverse food options ranging from fast food to specialty dishes.',
+        'Chinatown’s Best Food (Casual Dining) - Known for its Chinese buffet offerings.',
+        'Ramen Nagi (Casual Dining) - Popular spot for authentic Japanese ramen.',
+        'Max’s Restaurant (Casual Dining) - Filipino dishes in a family-friendly setting.'
+      ],
+      places: [
+        'Trinoma Mall - A major shopping center with retail stores, cinemas, and dining options.',
+        'SM North EDSA - One of the largest malls in the Philippines, offering shopping, entertainment, and dining.',
+        'Vertis North - A mixed-use development with offices, hotels, and retail spaces.',
+        'Quezon Memorial Circle - A national park and shrine dedicated to former President Manuel L. Quezon.',
+        'Ninoy Aquino Parks and Wildlife Center - A zoological and botanical garden ideal for nature enthusiasts.'
+      ],
+      accommodation: [
+        'Seda Vertis North (Luxury) - Upscale hotel offering modern amenities and services.',
+        'Go Hotels North EDSA (Budget-Friendly) - Affordable accommodations with essential facilities.',
+        'Red Planet Quezon City (Budget-Friendly) - Budget hotel known for its clean and comfortable rooms.',
+        'The Grass Residences (Mid-Range) - Condominium units available for short-term stays.',
+        'Eurotel North EDSA (Budget-Friendly) - Hotel offering European-themed rooms at reasonable rates.'
+      ]
     }
+    
     
      
       

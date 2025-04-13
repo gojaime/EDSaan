@@ -147,7 +147,7 @@ export default function TabTwoScreen() {
                 openMap({ latitude: stations[newIndexParsed].lat, longitude: stations[newIndexParsed].lon, zoom: 20});
 
                 }}
-          style={{backgroundColor: '#fcd20f', borderRadius: 10, padding: 5, flex: 50, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
+          style={{backgroundColor: '#fcd20f', borderRadius: 10, padding: 5, flex: 30, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
             <Text style={{color: 'black', fontSize: 14, textAlign: 'center'}}>{'Map'}</Text>
             <MaterialCommunityIcons name="map-search" size={24} color="black" /></TouchableOpacity>
         </View>

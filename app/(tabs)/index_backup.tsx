@@ -1,9 +1,17 @@
-import { Image, StyleSheet, View, Text, SafeAreaView,TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, View, Text, SafeAreaView,TouchableOpacity, Linking } from 'react-native';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function HomeScreen() {
+
+  const handlePress = () => {
+    const url = 'https://docs.google.com/forms/d/e/1FAIpQLSchkB1glFfvVt4609WCbUgx5MV-KUfLPy4SrPLyVoNbNsJAeQ/viewform?usp=dialog';
+    Linking.openURL(url).catch(err =>
+      console.error("Failed to open URL:", err)
+    );
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
       <View style={{flex: 40, justifyContent: 'center', marginTop: 20, alignItems: 'center'}}>
@@ -24,7 +32,7 @@ export default function HomeScreen() {
               <MaterialCommunityIcons name="bell-outline" size={24} color="black" />
               <Text style={{marginLeft: 10}}>Ring: {'On'}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity style={styles.item} onPress={handlePress}>
               <MaterialIcons name="feedback" size={24} color="black" />
               <Text style={{marginLeft: 10}}>Give your feedback! {' (help my research)'}</Text>
         </TouchableOpacity>

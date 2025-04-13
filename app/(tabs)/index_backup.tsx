@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, Text, SafeAreaView,TouchableOpacity, Linking } from 'react-native';
+import { Image, StyleSheet, View, Text, SafeAreaView,TouchableOpacity, Linking, Vibration } from 'react-native';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -31,14 +31,32 @@ export default function HomeScreen() {
         <Text>University of the Philippines Los Baños</Text>
       </View>
       <View style={{flex: 30, justifyContent: 'flex-end'}}>
-        <TouchableOpacity style={styles.item}
+        <TouchableOpacity style={{
+                        padding: 15,
+                        marginVertical: 5,
+                        backgroundColor: vibrate == true?  '#fcd20f' : '#f0f0f0', // Light gray background
+                        borderRadius: 10,
+                        margin: 20,
+                        flexDirection: 'row',
+                        alignItems: 'center'
+        }}
           onPress={() => {
-              vibrate == true? setVibrate(false) : setVibrate(true)
+              vibrate == false? Vibration.vibrate(1000) : null;
+              vibrate == true? setVibrate(false) : setVibrate(true);
+              
             }}>
               <MaterialCommunityIcons name="vibrate" size={24} color="black" />
               <Text style={{marginLeft: 10}}>Vibrate: {vibrate == true? 'On': 'Off'}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item}
+        <TouchableOpacity style={{
+              padding: 15,
+              marginVertical: 5,
+              backgroundColor: ring == true?  '#fcd20f' : '#f0f0f0',
+              borderRadius: 10,
+              margin: 20,
+              flexDirection: 'row',
+              alignItems: 'center'
+        }}
           onPress={() => {
             ring == true? setRing(false) : setRing(true)
           }}
@@ -46,7 +64,15 @@ export default function HomeScreen() {
               <MaterialCommunityIcons name="bell-outline" size={24} color="black" />
               <Text style={{marginLeft: 10}}>Ring: {ring == true? 'On': 'Off'}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={handlePress}>
+        <TouchableOpacity style={{
+              padding: 15,
+              marginVertical: 5,
+              backgroundColor: '#f0f0f0', // Light gray background
+              borderRadius: 10,
+              margin: 20,
+              flexDirection: 'row',
+              alignItems: 'center'
+        }} onPress={handlePress}>
               <MaterialIcons name="feedback" size={24} color="black" />
               <Text style={{marginLeft: 10}}>Give your feedback! {' (help my research)'}</Text>
         </TouchableOpacity>

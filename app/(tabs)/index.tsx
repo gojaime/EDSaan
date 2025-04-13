@@ -241,7 +241,8 @@ export default function App() {
         <Text style={{textAlign: 'center', fontSize: 15, backgroundColor: '#f0f0f0', padding: 5, borderRadius: 10, margin: 4}}>{arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : nextStation != -1? haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon).toFixed(2) + ' KM left' : ''}</Text>
         <Text style={{textAlign: 'center'}}>{latitude!=0? '': 'Loading Location...'}</Text>
       </View>
-      <View style={styles.mapContainer}>
+{      latitude == 0? <View><Text style={{fontSize: 16, marginBottom: 20}}>Loading map...</Text></View> : haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? <View><Text style={{fontSize: 24, textAlign: 'center', marginBottom: 20}}> 💡 You are too far from EDSA.</Text></View> :       
+<View style={styles.mapContainer}>
         <ScrollView horizontal={true} alwaysBounceHorizontal={false} overScrollMode='never' style={{borderRadius: 10}}  ref={scrollViewRef}>
           <ImageBackground source={require('@/assets/images/backdrop.png')} resizeMode = 'repeat' resizeMethod='resize' style={styles.map}>
             <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
@@ -281,7 +282,7 @@ export default function App() {
           <View style={styles.directionIndicator}><Text style={{color: 'black', fontSize: 13}}>{direction=='Southbound'? 'To PITX (Southbound) ▶' : 'To Monumento (Northbound) ▶'}</Text></View>
         </View>
         
-      </View>
+      </View>}
       <View style={styles.footer}>
         <View style={{flex: 80, margin: 10}}>
           <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>

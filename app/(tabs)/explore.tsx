@@ -17,10 +17,6 @@ const MyTabView = () => {
   ]);
 
   const {
-    destinationIndex, setDestinationIndex,
-    direction, setDirection,
-    nextStation, setNextStation,
-    latitude, longitude,
     sbstations, nbstations
   } = useGlobalState();
 

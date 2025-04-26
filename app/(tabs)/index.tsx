@@ -202,6 +202,7 @@ export default function App() {
 
         console.log('Current station: ' + currentStation);
         console.log('Next station: ' + nextStation);
+        console.log('Destination: ' + destinationIndex);
         console.log('Distance: ' + haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon));
         console.log('Arrived: ' + arrive);
       }
@@ -240,6 +241,21 @@ export default function App() {
         <Text style={{fontSize: 30, color: 'black', textAlign: 'center', fontWeight: 'black'}}>{nextStation == -1? 'Welcome to EDSaan': latitude == 0? 'Loading map...' : haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? 'You are too far from EDSA Busway' : currentNearStation? stations[currentNearStation].name : stations[nextStation].name }</Text>
         <Text style={{textAlign: 'center', fontSize: 15, backgroundColor: '#f0f0f0', padding: 5, borderRadius: 10, margin: 5}}>{latitude == 0? 'Loading map...' : haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? 'Go near EDSA Carousel Busway or click "Refresh Location"' : arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : nextStation != -1? haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon).toFixed(2) + ' KM left' : ''}</Text>
         <Text style={{textAlign: 'center'}}>{latitude!=0? '': 'Loading Location...'}</Text>
+      </View>
+
+      <View style = {{
+            backgroundColor: nextStation? nextStation > destinationIndex? '#cf0921' : 'white' : 'white',
+            flex: 5,
+            justifyContent: 'center',
+            borderRadius: 10,
+            margin: 10,
+            padding: 10
+      }}>
+        <Text style={{
+          color: 'white',
+          fontSize: 20
+        }}>{destinationIndex == currentNearStation? '!!! BABA NA PO' : destinationIndex < nextStation? '!!! LAGPAS NA PO' : ''}</Text>
+
       </View>
              
 <View style={styles.mapContainer}>
@@ -301,9 +317,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   header: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    flex: 50,
+    flex: 30,
     backgroundColor: 'white',
     alignSelf: 'stretch',
     marginHorizontal: 10,
@@ -355,5 +371,12 @@ const styles = StyleSheet.create({
     padding: 5,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  notifier: {
+    backgroundColor: 'red',
+    flex: 10,
+    justifyContent: 'center',
+    borderRadius: 10
+
   }
 });

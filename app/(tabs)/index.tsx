@@ -252,7 +252,7 @@ export default function App() {
             <View style={{flexDirection: 'row', marginTop: 40}}>
             {latitude == 0 || haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? <View></View> : stations.map((station, index) => (
               index == 0? <View key={index}></View> : <Progress.Bar animated={false} progress={index==nextStation? 1 - (haversineDistance(latitude,longitude,stations[nextStation].lat, stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat,stations[nextStation-1].lon,stations[nextStation].lat, stations[nextStation].lon)) : nextStation > index? 1 : 0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
-            <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} unfilledColor='gray'/>
+            {latitude == 0 || haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? <View></View> : <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} unfilledColor='gray'/>}
             </View>
             
 

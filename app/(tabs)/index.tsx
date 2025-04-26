@@ -244,7 +244,7 @@ export default function App() {
       </View>
 
       <View style = {{
-            backgroundColor: nextStation? nextStation > destinationIndex? '#cf0921' : 'white' : 'white',
+            backgroundColor: nextStation && destinationIndex != -1 && nextStation != -1 && latitude != 0? nextStation > destinationIndex? '#cf0921' : 'white' : 'white',
             flex: 5,
             justifyContent: 'center',
             borderRadius: 10,

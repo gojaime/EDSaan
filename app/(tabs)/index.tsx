@@ -237,11 +237,11 @@ export default function App() {
       <View style={styles.header}>
       
         <Text style={styles.paragraph}>{currentNearStation? 'You are now at: ' : 'Next bus stop: ' }</Text>
-        <Text style={{fontSize: 30, color: 'black', textAlign: 'center', fontWeight: 'black'}}>{nextStation == -1? 'Welcome to EDSaan': currentNearStation? stations[currentNearStation].name : stations[nextStation].name }</Text>
-        <Text style={{textAlign: 'center', fontSize: 15, backgroundColor: '#f0f0f0', padding: 5, borderRadius: 10, margin: 4}}>{arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : nextStation != -1? haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon).toFixed(2) + ' KM left' : ''}</Text>
+        <Text style={{fontSize: 30, color: 'black', textAlign: 'center', fontWeight: 'black'}}>{nextStation == -1? 'Welcome to EDSaan': latitude == 0? 'Loading map...' : haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? 'You are too far from EDSA Busway' : currentNearStation? stations[currentNearStation].name : stations[nextStation].name }</Text>
+        <Text style={{textAlign: 'center', fontSize: 15, backgroundColor: '#f0f0f0', padding: 5, borderRadius: 10, margin: 5}}>{latitude == 0? 'Loading map...' : haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? 'Go near EDSA Carousel Busway or click "Refresh Location"' : arrive==true? destinationIndex==currentStation? '🏁 This is your stop!' : 'Next station: ' + stations[nextStation].name : nextStation != -1? haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon).toFixed(2) + ' KM left' : ''}</Text>
         <Text style={{textAlign: 'center'}}>{latitude!=0? '': 'Loading Location...'}</Text>
       </View>
-{      latitude == 0? <View><Text style={{fontSize: 16, marginBottom: 20}}>Loading map...</Text></View> : haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? <View><Text style={{fontSize: 24, textAlign: 'center', marginBottom: 20}}> 💡 You are too far from EDSA.</Text></View> :       
+             
 <View style={styles.mapContainer}>
         <ScrollView horizontal={true} alwaysBounceHorizontal={false} overScrollMode='never' style={{borderRadius: 10}}  ref={scrollViewRef}>
           <ImageBackground source={require('@/assets/images/backdrop.png')} resizeMode = 'repeat' resizeMethod='resize' style={styles.map}>
@@ -250,14 +250,14 @@ export default function App() {
               <StationSquare key={index} text={station.name} direction={direction} index = {index}/>))}
             </View>
             <View style={{flexDirection: 'row', marginTop: 40}}>
-            {stations.map((station, index) => (
+            {latitude == 0 || haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? <View></View> : stations.map((station, index) => (
               index == 0? <View key={index}></View> : <Progress.Bar animated={false} progress={index==nextStation? 1 - (haversineDistance(latitude,longitude,stations[nextStation].lat, stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat,stations[nextStation-1].lon,stations[nextStation].lat, stations[nextStation].lon)) : nextStation > index? 1 : 0} width={250} height={5} color={'#FCD20F'} borderColor='#292929' borderWidth={1.2} borderRadius={0} key={index} unfilledColor='gray'/>))}
             <Progress.Bar progress={0} width={250} height={5} color={'#CF0921'} borderColor='#292929' borderWidth={1.2} borderRadius={0} unfilledColor='gray'/>
             </View>
             
 
             {/* nextStation != -1? ((nextStation - 1) * 250) +  ((1 - ((haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) / haversineDistance(stations[nextStation-1].lat, stations[nextStation-1].lon, stations[nextStation].lat, stations[nextStation].lon)))) * 250) : 0, */}
-            <Image
+{            latitude == 0 || haversineDistance(latitude,longitude,stations[nextStation].lat,stations[nextStation].lon) > 3? <View></View> : <Image
               style={{
                 shadowColor: 'black',
                 position: 'absolute',
@@ -273,7 +273,7 @@ export default function App() {
                 height: 40,
                 width: 80
               }}
-              source={require('@/assets/images/bus.png')}/>
+              source={require('@/assets/images/bus.png')}/>}
           </ImageBackground>
         </ScrollView>
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 0}}>
@@ -282,7 +282,7 @@ export default function App() {
           <View style={styles.directionIndicator}><Text style={{color: 'black', fontSize: 13}}>{direction=='Southbound'? 'To PITX (Southbound) ▶' : 'To Monumento (Northbound) ▶'}</Text></View>
         </View>
         
-      </View>}
+      </View>
       <View style={styles.footer}>
         <View style={{flex: 80, margin: 10}}>
           <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>

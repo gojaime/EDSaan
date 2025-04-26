@@ -16,6 +16,8 @@ import { useGlobalState } from "../../context/GlobalContext";
 import Toast from 'react-native-toast-message';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { sbstations } from '@/constants/Stations';
+import { nbstations } from '@/constants/Stations';
 
 export default function App() {
 
@@ -60,8 +62,6 @@ export default function App() {
           nextStation, setNextStation,
           latitude,
           longitude,
-          sbstations,
-          nbstations,
           currentStation, setCurrentStation,
           currentNearStation, setCurrentNearStation
         } = useGlobalState();

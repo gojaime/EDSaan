@@ -11,12 +11,16 @@ import { useGlobalState } from "../context/GlobalContext";
 import openMap from 'react-native-open-maps';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
+import { sbstations } from '@/constants/Stations';
+import { nbstations } from '@/constants/Stations';
+import { stationsDesc } from '@/constants/Stations';
+
 export default function TabTwoScreen() {
   const { post, newIndex, direction } = useLocalSearchParams();
   const {  } = useLocalSearchParams();
   const router = useRouter();
 
-  const { destinationIndex, setDestinationIndex, setDirection, setNextStation, nextStation, latitude,longitude,sbstations,nbstations,currentStation, stationsDesc } = useGlobalState();
+  const { destinationIndex, setDestinationIndex, setDirection, setNextStation, nextStation, latitude,longitude,currentStation } = useGlobalState();
 
   const newIndexParsed = Number(newIndex);
 

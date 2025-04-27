@@ -1,28 +1,28 @@
 import { Audio } from 'expo-av';
 import { useRef } from 'react';
 
-export const useAlarmSound = () => {
+export const useDingSound = () => {
   const soundRef = useRef<Audio.Sound | null>(null);
 
-  const playAlarmSound = async () => {
+  const playDingSound = async () => {
     if (soundRef.current) {
       await soundRef.current.replayAsync(); // play again if already loaded
       return;
     }
 
     const { sound } = await Audio.Sound.createAsync(
-      require('@/assets/sounds/alarm.mp3'), // update path if needed
+      require('@/assets/sounds/ding.mp3'), // update path if needed
       { shouldPlay: true }
     );
 
     soundRef.current = sound;
   };
 
-  const stopAlarmSound = async () => {
+  const stopDingSound = async () => {
     if (soundRef.current) {
       await soundRef.current.stopAsync();
     }
   };
 
-  return { playAlarmSound, stopAlarmSound };
+  return { playDingSound, stopDingSound };
 };

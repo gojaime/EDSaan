@@ -16,10 +16,17 @@ import { useGlobalState } from "../../context/GlobalContext";
 import Toast from 'react-native-toast-message';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import Entypo from '@expo/vector-icons/Entypo';
 import { sbstations } from '@/constants/Stations';
 import { nbstations } from '@/constants/Stations';
+import { useAlarmSound } from '@/hooks/playAlarmSound';
+import { useDingSound } from '@/hooks/playDingSound';
 
 export default function App() {
+
+  const { playAlarmSound, stopAlarmSound } = useAlarmSound();
+  const { playDingSound, stopDingSound } = useDingSound();
+  
 
 
   const scrollViewRef = useRef<ScrollView>(null); // Create a ref for ScrollView
@@ -169,6 +176,9 @@ export default function App() {
         // pag nakarating na,
         if(haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) <= 0.1 && arrive==false){
           console.log('ARRIVED');
+          
+          playDingSound();
+          
           setNextStation(nearestNextStation);
           if (nextStation == stations.length - 1){
             setCurrentStation(nearestNextStation);
@@ -192,6 +202,7 @@ export default function App() {
         // pag nakaalis na ulet,
         if(haversineDistance(latitude,longitude, stations[currentStation].lat, stations[currentStation].lon) >= 0.1 && arrive==true){
           console.log('LEFT');
+          stopDingSound();
           // setNextStation(nearestNextStation);
           // setCurrentStation(nearestNextStation - 1);
           setArrive(false);
@@ -249,12 +260,15 @@ export default function App() {
             justifyContent: 'center',
             borderRadius: 10,
             margin: 10,
-            padding: 10
+            padding: 10,
+            flexDirection: 'row',
+            alignItems: 'center'
       }}>
+        <Entypo name="warning" size={20} color="white" />
         <Text style={{
           color: 'white',
           fontSize: 20
-        }}>{destinationIndex == currentNearStation? '!!! BABA NA PO' : destinationIndex < nextStation? '!!! LAGPAS NA PO' : ''}</Text>
+        }}>{destinationIndex == currentNearStation? '!!! BABA NA PO' : destinationIndex < nextStation? ' LAGPAS NA PO' : ''}</Text>
 
       </View>
              

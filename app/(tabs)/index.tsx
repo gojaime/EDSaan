@@ -323,10 +323,10 @@ export default function App() {
                       haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250
                   ) 
                 : 0,
-                height: 40,
-                width: 80
+                height: 30,
+                width: 120,
               }}
-              source={require('@/assets/images/bus.png')}/>}
+              source={require('@/assets/images/bus.png')} resizeMode='contain'/>}
           </ImageBackground>
         </ScrollView>
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: 'white', borderTopLeftRadius: 10, borderTopRightRadius: 10, marginTop: 10, marginHorizontal: 0}}>

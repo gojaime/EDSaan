@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import React, { useRef } from "react";
-import { Platform, Text, View, StyleSheet, ScrollView, StatusBar, Button, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import { Platform, Text, View, StyleSheet, ScrollView, StatusBar, Button, TouchableOpacity, ImageBackground, Image, Vibration } from 'react-native';
 
 import * as Location from 'expo-location';
 
@@ -9,14 +9,14 @@ import * as Progress from 'react-native-progress';
 import StationSquare from '@/components/StationSquare';
 
 import { Link, useRouter, useLocalSearchParams } from 'expo-router';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { useGlobalState } from "../../context/GlobalContext";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import Toast from 'react-native-toast-message';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import Entypo from '@expo/vector-icons/Entypo';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { sbstations } from '@/constants/Stations';
 import { nbstations } from '@/constants/Stations';
 import { useAlarmSound } from '@/hooks/playAlarmSound';
@@ -70,7 +70,9 @@ export default function App() {
           latitude,
           longitude,
           currentStation, setCurrentStation,
-          currentNearStation, setCurrentNearStation
+          currentNearStation, setCurrentNearStation,
+          vibrate,
+          ring
         } = useGlobalState();
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
@@ -150,6 +152,10 @@ export default function App() {
 
   // update nearest everytime gps is updated
   useEffect(() => {
+
+    if(destinationIndex == -1){
+      stopAlarmSound();
+    }
     if (latitude !== 0 || longitude !== 0) {
 
       // set currentNeareststation if meron
@@ -177,7 +183,14 @@ export default function App() {
         if(haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) <= 0.1 && arrive==false){
           console.log('ARRIVED');
           
-          playDingSound();
+
+          // ring and vibrate every station
+          if (ring == true){
+            playDingSound();
+          }
+          if (vibrate == true){
+            Vibration.vibrate(1000)
+          }
           
           setNextStation(nearestNextStation);
           if (nextStation == stations.length - 1){
@@ -196,6 +209,15 @@ export default function App() {
                   haversineDistance(stations[nextStation - 1].lat, stations[nextStation - 1].lon, stations[nextStation].lat, stations[nextStation].lon))) * 250) - 100
               ) 
             : 0);
+
+            if(nextStation != -1 && nextStation == destinationIndex && haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) < 0.1){
+              if(ring ==true){
+                playAlarmSound();
+              }
+              if(vibrate ==true){
+                Vibration.vibrate(1000)
+              }
+            }
           
         
         }
@@ -258,17 +280,18 @@ export default function App() {
             backgroundColor: nextStation && destinationIndex != -1 && nextStation != -1 && latitude != 0? nextStation > destinationIndex? '#cf0921' : 'white' : 'white',
             flex: 5,
             justifyContent: 'center',
-            borderRadius: 10,
+            borderRadius: 15,
             margin: 10,
             padding: 10,
             flexDirection: 'row',
             alignItems: 'center'
       }}>
-        <Entypo name="warning" size={20} color="white" />
+        {destinationIndex == currentNearStation? <FontAwesome6 name="person-walking" size={20} color="white" /> : destinationIndex < nextStation? <Ionicons name="warning-outline" size={20} color="white" /> : <View></View>}
         <Text style={{
           color: 'white',
           fontSize: 20
-        }}>{destinationIndex == currentNearStation? '!!! BABA NA PO' : destinationIndex < nextStation? ' LAGPAS NA PO' : ''}</Text>
+        }}>{destinationIndex == currentNearStation? ' BABA NA PO  ' : destinationIndex < nextStation? ' LAGPAS NA PO  ' : ''}</Text>
+        <TouchableOpacity onPress={() => {setDestinationIndex(-1); stopAlarmSound();}}><FontAwesome6 name="square-xmark" size={30} color="white" /></TouchableOpacity>
 
       </View>
              

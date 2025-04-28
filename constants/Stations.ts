@@ -15,6 +15,7 @@
     { name: 'MRT 3 North Avenue', lat: 14.651448496391131, lon: 121.03285691836994, id: 'northave' },
     { name: 'Philam QC', lat: 14.647751137163727, lon: 121.03519650998638, id: 'philam' },
     { name: 'MRT 3 Quezon Avenue', lat: 14.641667514884944, lon: 121.03926668810226, id: 'quezonave' },
+    { name: 'Kamuning', lat: 14.636194976550739, lon: 121.0427328320978, id: 'kamuning' },
     { name: 'Nepa Q-Mart', lat: 14.629176468642413, lon: 121.04670279166625, id: 'qmart' },
     { name: 'Main Ave (Cubao)', lat: 14.614308409451436, lon: 121.05352753530148, id: 'cubao' },
     { name: 'MRT 3 Santolan Station', lat: 14.60930543443652, lon: 121.05582512841691, id: 'santolan' },
@@ -44,6 +45,7 @@
     { name: 'MRT 3 Santolan Station', lat: 14.60930543443652, lon: 121.05582512841691, id: 'santolan' },
     { name: 'Main Ave (Cubao)', lat: 14.614308409451436, lon: 121.05352753530148, id: 'cubao' },
     { name: 'Nepa Q-Mart', lat: 14.629176468642413, lon: 121.04670279166625, id: 'qmart' },
+    { name: 'Kamuning', lat: 14.636194976550739, lon: 121.0427328320978, id: 'kamuning' },
     { name: 'MRT 3 Quezon Avenue Station', lat: 14.641667514884944, lon: 121.03926668810226, id: 'quezonave' },
     { name: 'Philam QC', lat: 14.647751137163727, lon: 121.03519650998638, id: 'philam' },
     { name: 'MRT 3 North Avenue', lat: 14.651448496391131, lon: 121.03285691836994, id: 'northave' },
@@ -621,7 +623,32 @@
         'The Grass Residences (Mid-Range) - Condominium units available for short-term stays.',
         'Eurotel North EDSA (Budget-Friendly) - Hotel offering European-themed rooms at reasonable rates.'
       ]
-    }
+    },
+    {id: 'kamuning',
+      intro: [
+        'Located along EDSA near the Kamuning Road intersection in Quezon City.',
+        'Named after the Kamuning area, known for its tree-lined streets and residential zones.',
+        'Serves as a convenient access point for commuters heading to business districts and nearby residential communities.'
+      ],
+      food: [
+        'The Frazzled Cook (casual dining, international cuisine)',
+        'Romulo Café (Filipino cuisine)',
+        'Provenciano (Filipino-Spanish fusion)',
+        'Sizzling Plate (budget-friendly meals)',
+        'Coffee Project (café with cozy ambience)'
+      ],
+      places: [
+        'GMA Network Center',
+        'Quezon City Memorial Circle',
+        'East Avenue Medical Center',
+        'Timog Avenue entertainment district'
+      ],
+      accommodation: [
+        'Go Hotels Timog – affordable business hotel near Kamuning area',
+        'Red Planet Timog Avenue – budget hotel with clean, modern rooms',
+        'Hive Hotel and Convention Place – stylish eco-friendly hotel in Quezon City'
+      ]
+    },
     
     
      

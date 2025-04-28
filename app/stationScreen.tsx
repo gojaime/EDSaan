@@ -105,7 +105,8 @@ export default function TabTwoScreen() {
     dfa: require('@/assets/images/stations/dfa.jpg'),
     cityofdreams: require('@/assets/images/stations/cityofdreams.jpg'),
     pitx: require('@/assets/images/stations/pitx.jpg'),
-    philam: require('@/assets/images/stations/philam.jpg')
+    philam: require('@/assets/images/stations/philam.jpg'),
+    kamuning: require('@/assets/images/stations/kamuning.jpg')
   };
   
 

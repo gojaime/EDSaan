@@ -41,18 +41,18 @@ export default function HomeScreen() {
                         margin: 20,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent: 'space-between'}}>
+                        justifyContent: 'space-evenly'}}>
 
-          <View style={{flexDirection: 'row', flex: 80}}>
-            <Text style={{marginLeft: 10}}>Alert</Text><Text style={{fontWeight: 'bold'}}> {stationBefore} </Text><Text>station before destination </Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{marginLeft: 10}}>Alert</Text><Text style={{fontWeight: 'bold'}}> {stationBefore} </Text><Text>station(s) before destination </Text>
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 20}}>
+          <View style={{flexDirection: 'row'}}>
             <TouchableOpacity onPress={() => {
               setStationBefore(stationBefore == 0? stationBefore : stationBefore - 1);
               
             }}><AntDesign name="minuscircleo" size={24} color="black" /></TouchableOpacity>
 
-            <TouchableOpacity onPress={() => {
+            <TouchableOpacity style={{marginLeft: 5}} onPress={() => {
               setStationBefore(stationBefore == 3? stationBefore : stationBefore + 1);
               
             }}><AntDesign name="pluscircleo" size={24} color="black" /></TouchableOpacity>

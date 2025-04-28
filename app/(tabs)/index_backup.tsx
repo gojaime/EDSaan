@@ -102,8 +102,10 @@ export default function HomeScreen() {
               alignItems: 'center'
         }} onPress={handlePress}>
               <MaterialIcons name="feedback" size={24} color="black" />
-              <Text style={{marginLeft: 10}}>Give your feedback! {' (help my research)'}</Text>
+              <Text style={{marginLeft: 10}}>Help my research by giving feedback!</Text>
         </TouchableOpacity>
+
+
       </View>
     </SafeAreaView>
   );

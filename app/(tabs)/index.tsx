@@ -11,7 +11,7 @@ import StationSquare from '@/components/StationSquare';
 import { Link, useRouter, useLocalSearchParams } from 'expo-router';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { useGlobalState } from "../../context/GlobalContext";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Entypo from '@expo/vector-icons/Entypo';
 
 import Toast from 'react-native-toast-message';
 
@@ -72,7 +72,8 @@ export default function App() {
           currentStation, setCurrentStation,
           currentNearStation, setCurrentNearStation,
           vibrate,
-          ring
+          ring,
+          stationBefore
         } = useGlobalState();
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
@@ -210,7 +211,7 @@ export default function App() {
               ) 
             : 0);
 
-            if(nextStation != -1 && nextStation == destinationIndex && haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) < 0.1){
+            if(nextStation != -1 && nextStation == destinationIndex - stationBefore - 1 && haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) < 0.1){
               if(ring ==true){
                 playAlarmSound();
               }
@@ -277,21 +278,21 @@ export default function App() {
       </View>
 
       <View style = {{
-            backgroundColor: nextStation && destinationIndex != -1 && nextStation != -1 && latitude != 0? nextStation > destinationIndex? '#cf0921' : 'white' : 'white',
+            backgroundColor: nextStation && destinationIndex > -1 && nextStation != -1 && latitude != 0? nextStation > destinationIndex - stationBefore - 1? '#cf0921' : 'white' : 'white',
             flex: 5,
             justifyContent: 'center',
-            borderRadius: 15,
+            borderRadius: 30,
             margin: 10,
-            padding: 10,
+            paddingHorizontal: 10,
             flexDirection: 'row',
             alignItems: 'center'
       }}>
         {destinationIndex == currentNearStation? <FontAwesome6 name="person-walking" size={20} color="white" /> : destinationIndex < nextStation? <Ionicons name="warning-outline" size={20} color="white" /> : <View></View>}
         <Text style={{
           color: 'white',
-          fontSize: 20
-        }}>{destinationIndex == currentNearStation? ' BABA NA PO  ' : destinationIndex < nextStation? ' LAGPAS NA PO  ' : ''}</Text>
-        <TouchableOpacity onPress={() => {setDestinationIndex(-1); stopAlarmSound();}}><FontAwesome6 name="square-xmark" size={30} color="white" /></TouchableOpacity>
+          fontSize: 16
+        }}>{ destinationIndex == currentNearStation? ' BABA NA PO  ' : destinationIndex < nextStation? ' LAGPAS NA PO  ' : destinationIndex - nextStation + ' station(s) left before destination  '}</Text>
+        <TouchableOpacity onPress={() => {setDestinationIndex(-1); stopAlarmSound();}}><Entypo name="circle-with-cross" size={30} color="white" /></TouchableOpacity>
 
       </View>
              

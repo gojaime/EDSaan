@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import * as Location from "expo-location"; // Import Expo Location API
-
-import { sbstations } from '@/constants/Stations';
-import { nbstations } from '@/constants/Stations';
+import { sbstations, nbstations } from "@/constants/Stations";
 
 // Define the shape of the global state
 interface GlobalState {
@@ -15,35 +13,19 @@ interface GlobalState {
   longitude: number;
   latitude: number;
   errorMsg: string | null;
-  currentStation: number | null; // ✅ Added this
-  setCurrentStation: (index: number | null) => void; // ✅ Added setter
-  currentNearStation: number | null; // ✅ Added this
-  setCurrentNearStation: (index: number | null) => void; // ✅ Added setter,
+  currentStation: number | null;
+  setCurrentStation: (index: number | null) => void;
+  currentNearStation: number | null;
+  setCurrentNearStation: (index: number | null) => void;
   vibrate: boolean;
   setVibrate: (value: boolean) => void;
   ring: boolean;
   setRing: (value: boolean) => void;
+  stationBefore: number;
+  setStationBefore: (index: number) => void;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
-
-const findNearestStation = (latitude: number, longitude: number, stations: { lat: number; lon: number }[]) => {
-  if (stations.length === 0) return null; // Return null if no stations exist
-
-  let nearestIndex = 0;
-  let minDistance = haversineDistance(latitude, longitude, stations[0].lat, stations[0].lon);
-
-  stations.forEach((station, index) => {
-    const distance = haversineDistance(latitude, longitude, station.lat, station.lon);
-    if (distance < minDistance) {
-      minDistance = distance;
-      nearestIndex = index;
-    }
-  });
-
-  return minDistance <= 0.1 ? nearestIndex : null; // Return index if within 0.1 km, else null
-};
-
 
 // Haversine formula to calculate distance between two coordinates
 const haversineDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
@@ -63,6 +45,23 @@ const haversineDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * c; // Distance in kilometers
 };
 
+const findNearestStation = (latitude: number, longitude: number, stations: { lat: number; lon: number }[]) => {
+  if (stations.length === 0) return null;
+
+  let nearestIndex = 0;
+  let minDistance = haversineDistance(latitude, longitude, stations[0].lat, stations[0].lon);
+
+  stations.forEach((station, index) => {
+    const distance = haversineDistance(latitude, longitude, station.lat, station.lon);
+    if (distance < minDistance) {
+      minDistance = distance;
+      nearestIndex = index;
+    }
+  });
+
+  return minDistance <= 0.1 ? nearestIndex : null; // Return index if within 0.1 km, else null
+};
+
 export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [destinationIndex, setDestinationIndex] = useState<number>(-1);
   const [direction, setDirection] = useState<string>("Southbound");
@@ -70,17 +69,14 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [longitude, setLongitude] = useState<number>(0);
   const [latitude, setLatitude] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [hasSetNextStation, setHasSetNextStation] = useState<boolean>(false);
-  const [currentStation, setCurrentStation] = useState<number | null>(null); // ✅ Added this
-  const [currentNearStation, setCurrentNearStation] = useState<number | null>(null); // ✅ Added this
-  const [vibrate, setVibrate] = useState<boolean>(true); // default true or false as needed
-  const [ring, setRing] = useState<boolean>(true);   
+  const [currentStation, setCurrentStation] = useState<number | null>(null);
+  const [currentNearStation, setCurrentNearStation] = useState<number | null>(null);
+  const [vibrate, setVibrate] = useState<boolean>(true);
+  const [ring, setRing] = useState<boolean>(true);
+  const [stationBefore, setStationBefore] = useState<number>(0);
 
-
-  // Select the station list based on direction
   const stations = direction === "Southbound" ? sbstations : nbstations;
 
-  // Effect to fetch and update location
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -115,14 +111,16 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         longitude,
         latitude,
         errorMsg,
-        currentStation, // ✅ Added this
-        setCurrentStation, // ✅ Added setter
-        currentNearStation, // ✅ Added this
-        setCurrentNearStation, // ✅ Added setter,
+        currentStation,
+        setCurrentStation,
+        currentNearStation,
+        setCurrentNearStation,
         vibrate,
         setVibrate,
         ring,
-        setRing
+        setRing,
+        stationBefore,
+        setStationBefore
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import { Image, StyleSheet, View, Text, SafeAreaView,TouchableOpacity, Linking, Vibration } from 'react-native';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useGlobalState } from "../../context/GlobalContext";
 
@@ -9,7 +10,9 @@ export default function HomeScreen() {
     const { ring,
             setRing,
             vibrate,
-            setVibrate
+            setVibrate,
+            stationBefore,
+            setStationBefore
           } = useGlobalState();
 
   const handlePress = () => {
@@ -31,6 +34,31 @@ export default function HomeScreen() {
         <Text>University of the Philippines Los Baños</Text>
       </View>
       <View style={{flex: 30, justifyContent: 'flex-end'}}>
+        <View style={{                        padding: 15,
+                        marginVertical: 5,
+                        backgroundColor: '#f0f0f0', // Light gray background
+                        borderRadius: 10,
+                        margin: 20,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'}}>
+
+          <View style={{flexDirection: 'row', flex: 80}}>
+            <Text style={{marginLeft: 10}}>Alert</Text><Text style={{fontWeight: 'bold'}}> {stationBefore} </Text><Text>station before destination </Text>
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 20}}>
+            <TouchableOpacity onPress={() => {
+              setStationBefore(stationBefore == 0? stationBefore : stationBefore - 1);
+              
+            }}><AntDesign name="minuscircleo" size={24} color="black" /></TouchableOpacity>
+
+            <TouchableOpacity onPress={() => {
+              setStationBefore(stationBefore == 3? stationBefore : stationBefore + 1);
+              
+            }}><AntDesign name="pluscircleo" size={24} color="black" /></TouchableOpacity>
+          </View>
+
+        </View>
         <TouchableOpacity style={{
                         padding: 15,
                         marginVertical: 5,

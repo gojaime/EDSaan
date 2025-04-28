@@ -73,12 +73,13 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [currentNearStation, setCurrentNearStation] = useState<number | null>(null);
   const [vibrate, setVibrate] = useState<boolean>(true);
   const [ring, setRing] = useState<boolean>(true);
-  const [stationBefore, setStationBefore] = useState<number>(0);
+  const [stationBefore, setStationBefore] = useState<number>(1);
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    
 
     async function getCurrentLocation() {
       let { status } = await Location.requestForegroundPermissionsAsync();

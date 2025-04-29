@@ -73,7 +73,8 @@ export default function App() {
           currentNearStation, setCurrentNearStation,
           vibrate,
           ring,
-          stationBefore
+          stationBefore,
+          alarmPlayed, setAlarmPlayed
         } = useGlobalState();
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
@@ -156,6 +157,7 @@ export default function App() {
 
     if(destinationIndex == -1){
       stopAlarmSound();
+      setAlarmPlayed(false);
     }
     if (latitude !== 0 || longitude !== 0) {
 
@@ -211,13 +213,14 @@ export default function App() {
               ) 
             : 0);
 
-            if(nextStation != -1 && nextStation == destinationIndex - stationBefore - 1 && haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) < 0.1){
+            if(alarmPlayed == false && nextStation != -1 && nextStation == destinationIndex - stationBefore - 1 && haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) < 0.1){
               if(ring ==true){
                 playAlarmSound();
               }
               if(vibrate ==true){
                 Vibration.vibrate(1000)
               }
+              setAlarmPlayed(true);
             }
           
         
@@ -249,6 +252,7 @@ export default function App() {
   // destination changed, refresh
   useEffect(() => {
     refreshVars();
+    setAlarmPlayed(false);
   }, [destinationIndex]);
   
 

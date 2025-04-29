@@ -23,6 +23,8 @@ interface GlobalState {
   setRing: (value: boolean) => void;
   stationBefore: number;
   setStationBefore: (index: number) => void;
+  alarmPlayed: boolean;
+  setAlarmPlayed: (value: boolean) => void;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -74,13 +76,13 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [vibrate, setVibrate] = useState<boolean>(true);
   const [ring, setRing] = useState<boolean>(true);
   const [stationBefore, setStationBefore] = useState<number>(1);
+  const [alarmPlayed, setAlarmPlayed] = useState<boolean>(false);
 
   const stations = direction === "Southbound" ? sbstations : nbstations;
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
-
     async function getCurrentLocation() {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -121,7 +123,9 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         ring,
         setRing,
         stationBefore,
-        setStationBefore
+        setStationBefore,
+        alarmPlayed,
+        setAlarmPlayed
       }}
     >
       {children}

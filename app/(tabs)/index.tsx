@@ -21,6 +21,7 @@ import { sbstations } from '@/constants/Stations';
 import { nbstations } from '@/constants/Stations';
 import { useAlarmSound } from '@/hooks/playAlarmSound';
 import { useDingSound } from '@/hooks/playDingSound';
+import * as Notifications from 'expo-notifications';
 
 export default function App() {
 
@@ -151,6 +152,15 @@ export default function App() {
 
 
 
+    useEffect(() => {
+      const getNotificationPermission = async () => {
+        const { status } = await Notifications.requestPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('Permission not granted for notifications');
+        }
+      };
+      getNotificationPermission();
+    }, []);  
 
   // update nearest everytime gps is updated
   useEffect(() => {
@@ -198,6 +208,7 @@ export default function App() {
           if(alarmPlayed == false && nextStation != -1 && nextStation > destinationIndex - stationBefore - 1){
             if(ring ==true){
               playAlarmSound();
+              scheduleLocalNotification();
             }
             setAlarmPlayed(true);
           }
@@ -270,6 +281,20 @@ export default function App() {
       result = stations[nextStation].name
     }
   }
+
+  const scheduleLocalNotification = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "EDSAan Alarm",
+        body: 'Wake up!',
+      },
+      trigger: {
+        type: 'timeInterval', // required
+        seconds: 1,
+        repeats: false, // optional
+      },
+    });
+  };
 
   return (
     <View style={styles.main}>

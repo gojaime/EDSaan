@@ -194,6 +194,13 @@ export default function App() {
           if (vibrate == true){
             Vibration.vibrate(1000)
           }
+
+          if(alarmPlayed == false && nextStation != -1 && nextStation > destinationIndex - stationBefore - 1){
+            if(ring ==true){
+              playAlarmSound();
+            }
+            setAlarmPlayed(true);
+          }
           
           setNextStation(nearestNextStation);
           if (nextStation == stations.length - 1){
@@ -213,15 +220,7 @@ export default function App() {
               ) 
             : 0);
 
-            if(alarmPlayed == false && nextStation != -1 && nextStation == destinationIndex - stationBefore - 1 && haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon) < 0.1){
-              if(ring ==true){
-                playAlarmSound();
-              }
-              if(vibrate ==true){
-                Vibration.vibrate(1000)
-              }
-              setAlarmPlayed(true);
-            }
+
           
         
         }
@@ -242,6 +241,7 @@ export default function App() {
         console.log('Destination: ' + destinationIndex);
         console.log('Distance: ' + haversineDistance(latitude,longitude, stations[nextStation].lat, stations[nextStation].lon));
         console.log('Arrived: ' + arrive);
+        console.log('alarm played: ' + alarmPlayed)
       }
 
     }

@@ -12,7 +12,9 @@ export default function HomeScreen() {
             vibrate,
             setVibrate,
             stationBefore,
-            setStationBefore
+            setStationBefore,
+            alarmPlayed,
+            setAlarmPlayed
           } = useGlobalState();
 
   const handlePress = () => {
@@ -49,11 +51,13 @@ export default function HomeScreen() {
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity onPress={() => {
               setStationBefore(stationBefore == 0? stationBefore : stationBefore - 1);
+              setAlarmPlayed(false);
               
             }}><AntDesign name="minuscircleo" size={24} color="black" /></TouchableOpacity>
 
             <TouchableOpacity style={{marginLeft: 5}} onPress={() => {
               setStationBefore(stationBefore == 3? stationBefore : stationBefore + 1);
+              setAlarmPlayed(false);
               
             }}><AntDesign name="pluscircleo" size={24} color="black" /></TouchableOpacity>
           </View>

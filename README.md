@@ -1,8 +1,17 @@
-# Welcome to your Expo app 👋
+# EDSAan: A Mobile Notification System for the EDSA Carousel Busway
+Presented by: George Orquiza Jaime III
+Adviser: Prof Concepcion L. Khan
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Abstract
+This study presents the development and evaluation of EDSAan, a mobile application designed to assist commuters of the EDSA Carousel bus system in Metro Manila. The app aims to improve the commuting experience by providing real-time bus stop tracking, offline GPS navigation, and location-based notifications. To assess its effectiveness, three main objectives were evaluated: the usability of the app’s interface for EDSA Carousel travel, the functionality of its offline GPS features, and the overall user satisfaction and usability of the app.
+
+Evaluation data were collected through a custom questionnaire and the System Usability Scale (SUS), with a total of 179 valid responses analyzed. The results showed high levels of agreement across all three objectives, with average Likert scale ratings ranging from 4.45 to 4.76 out of 5. The SUS yielded an average score of 85.52, indicating excellent usability. Additionally, the researcher conducted a personal test by using the app across all 24 EDSA Carousel stations, confirming its real-world performance through video documentation.
+
+Overall, the findings suggest that EDSAan is a highly usable and reliable tool for daily commuters, especially those who rely on offline navigation. The app demonstrates strong potential to support urban transportation needs and improve the commuting experience along the EDSA Carousel route.
 
 ## Get started
+
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 1. Install dependencies
 
@@ -25,16 +34,6 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
 ## Learn more
 
 To learn more about developing your project with Expo, look at the following resources:
@@ -44,7 +43,3 @@ To learn more about developing your project with Expo, look at the following res
 
 ## Join the community
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

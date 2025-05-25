@@ -1,6 +1,6 @@
 # EDSAan: A Mobile Notification System for the EDSA Carousel Busway
-Presented by: George Orquiza Jaime III
-Adviser: Prof Concepcion L. Khan
+- Presented by: George Orquiza Jaime III
+- Adviser: Prof Concepcion L. Khan
 
 ## Abstract
 This study presents the development and evaluation of EDSAan, a mobile application designed to assist commuters of the EDSA Carousel bus system in Metro Manila. The app aims to improve the commuting experience by providing real-time bus stop tracking, offline GPS navigation, and location-based notifications. To assess its effectiveness, three main objectives were evaluated: the usability of the app’s interface for EDSA Carousel travel, the functionality of its offline GPS features, and the overall user satisfaction and usability of the app.

@@ -38,3 +38,10 @@ You can start developing by editing the files inside the **app** directory. This
 
 ## Screenshots
 ![Alt text](latex_journal/ICS-template/screenshots/EDSAan_trip.png?raw=true "Ongoing trip")
+![Alt text](latex_journal/ICS-template/screenshots/EDSAan_browse.png?raw=true "Ongoing trip")
+![Alt text](latex_journal/ICS-template/screenshots/EDSAan_stationinfo.png?raw=true "Ongoing trip")
+![Alt text](latex_journal/ICS-template/screenshots/EDSAan_a;ertbefore.png?raw=true "Ongoing trip")
+![Alt text](latex_journal/ICS-template/screenshots/EDSAan_baba.png?raw=true "Ongoing trip")
+![Alt text](latex_journal/ICS-template/screenshots/EDSAan_lagpas.png?raw=true "Ongoing trip")
+![Alt text](latex_journal/ICS-template/screenshots/EDSAan_toofar.png?raw=true "Ongoing trip")
+![Alt text](latex_journal/ICS-template/screenshots/EDSAan_settings.png?raw=true "Ongoing trip")

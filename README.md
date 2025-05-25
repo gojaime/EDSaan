@@ -1,4 +1,6 @@
 # EDSAan: A Mobile Notification System for the EDSA Carousel Busway
+- Submitted to the faculty of the Institute of Computer Science, University of the Philippines Los Baños
+- In partial fulfillment of the requirements for the degree of BS Computer Science
 - Presented by: George Orquiza Jaime III
 - Adviser: Prof Concepcion L. Khan
 
